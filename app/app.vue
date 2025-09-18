@@ -8,19 +8,19 @@
           <input 
             v-model="projectName"
             type="text" 
-            class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" 
+            class="form-input" 
             placeholder="Project Name" 
           />
           <input 
             v-model="projectNumber"
             type="text" 
-            class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" 
+            class="form-input" 
             placeholder="Project #" 
           />
           <input 
             v-model="address"
             type="text" 
-            class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" 
+            class="form-input" 
             placeholder="Street Address"
           />
           
@@ -35,7 +35,7 @@
             <input 
               v-model="city"
               type="text" 
-              class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" 
+              class="form-input" 
               placeholder="City"
             />
             
@@ -45,8 +45,8 @@
                 <button
                   @click="toggleStateDropdown"
                   type="button"
-                  class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-left flex items-center justify-between"
-                  :class="{ 'border-blue-500 ring-2 ring-blue-200': showStateDropdown }"
+                  class="form-dropdown-button"
+                  :class="{ 'form-dropdown-button--active': showStateDropdown }"
                 >
                   <span class="text-gray-700">{{ state || 'Select State' }}</span>
                   <svg 
@@ -64,7 +64,7 @@
                 <Transition name="dropdown">
                   <div 
                     v-if="showStateDropdown"
-                    class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
+                    class="form-dropdown-menu"
                   >
                     <div class="py-1">
                       <button
@@ -72,8 +72,8 @@
                         :key="stateOption.value"
                         @click="selectState(stateOption.value)"
                         type="button"
-                        class="w-full px-3 py-2 text-left text-sm text-gray-700 focus:bg-gray-100 focus:outline-none transition-colors duration-150"
-                        :class="{ 'bg-blue-50 text-blue-700': state === stateOption.value }"
+                        class="form-dropdown-item"
+                        :class="{ 'form-dropdown-item--selected': state === stateOption.value }"
                       >
                         {{ stateOption.label }}
                       </button>
@@ -84,7 +84,7 @@
               <input 
                 v-model="zipCode"
                 type="text" 
-                class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" 
+                class="form-input" 
                 placeholder="ZIP Code"
               />
             </div>
@@ -93,10 +93,10 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div class="col-span-1">
-              <input type="text" class="w-full p-2 border border-gray-300 rounded-md  focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none" placeholder="weather" />
+              <input type="text" class="form-input" placeholder="weather" />
             </div>
             <div class="col-span-1">
-              <input type="text" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-200 focus:outline-none" placeholder="temperature" />
+              <input type="text" class="form-input" placeholder="temperature" />
             </div>
           </div>
 
@@ -107,7 +107,7 @@
               <button
                 @click="openDateDrawer"
                 type="button"
-                class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-left flex items-center justify-between"
+                class="form-dropdown-button"
               >
                 <span class="text-gray-700">{{ selectedDate || 'Select Date' }}</span>
                 <svg 
@@ -126,7 +126,7 @@
               <button
                 @click="openTimeDrawer"
                 type="button"
-                class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-left flex items-center justify-between"
+                class="form-dropdown-button"
               >
                 <span class="text-gray-700">{{ selectedTime || 'Select Time' }}</span>
                 <svg 
@@ -141,16 +141,16 @@
             </div>
           </div>
 
-          <input type="text" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-200 focus:outline-none" placeholder="Inspector Name" />
-          <input type="text" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-200 focus:outline-none" placeholder="Inspector Number" />
-          <input type="text" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-200 focus:outline-none" placeholder="Access Issues?" />
+          <input type="text" class="form-input" placeholder="Inspector Name" />
+          <input type="text" class="form-input" placeholder="Inspector Number" />
+          <input type="text" class="form-input" placeholder="Access Issues?" />
           <!-- Property Type Selector -->
           <div class="relative">
             <button
               @click="togglePropertyTypeDropdown"
               type="button"
-              class="w-full p-2 border border-gray-300 rounded-md transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-left flex items-center justify-between"
-              :class="{ 'border-blue-500 ring-2 ring-blue-200': showPropertyTypeDropdown }"
+              class="form-dropdown-button"
+              :class="{ 'form-dropdown-button--active': showPropertyTypeDropdown }"
             >
               <span class="text-gray-700">{{ propertyType || 'Surrounding Properties' }}</span>
               <svg 
@@ -168,7 +168,7 @@
             <Transition name="dropdown">
               <div 
                 v-if="showPropertyTypeDropdown"
-                class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
+                class="form-dropdown-menu"
               >
                 <div class="py-1">
                   <button
@@ -176,8 +176,8 @@
                     :key="propertyOption.value"
                     @click="selectPropertyType(propertyOption.value)"
                     type="button"
-                    class="w-full px-3 py-2 text-left text-sm text-gray-700 focus:bg-gray-100 focus:outline-none transition-colors duration-150"
-                    :class="{ 'bg-blue-50 text-blue-700': propertyType === propertyOption.value }"
+                    class="form-dropdown-item"
+                    :class="{ 'form-dropdown-item--selected': propertyType === propertyOption.value }"
                   >
                     {{ propertyOption.label }}
                   </button>
@@ -222,7 +222,7 @@
               <input
                 v-model="selectedDate"
                 type="date"
-                class="w-full p-3 text-lg border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                class="form-drawer-input"
               />
             </div>
             
@@ -230,13 +230,13 @@
             <div class="flex gap-3 p-4 border-t">
               <button 
                 @click="closeDateDrawer"
-                class="flex-1 px-4 py-3 text-gray-600 border border-gray-300 rounded-lg font-medium"
+                class="form-drawer-button form-drawer-button--secondary"
               >
                 Cancel
               </button>
               <button 
                 @click="confirmDate"
-                class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-medium"
+                class="form-drawer-button form-drawer-button--primary"
               >
                 Confirm
               </button>
@@ -278,7 +278,7 @@
               <input
                 v-model="selectedTime"
                 type="time"
-                class="w-full p-3 text-lg border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                class="form-drawer-input"
               />
             </div>
             
@@ -286,13 +286,13 @@
             <div class="flex gap-3 p-4 border-t">
               <button 
                 @click="closeTimeDrawer"
-                class="flex-1 px-4 py-3 text-gray-600 border border-gray-300 rounded-lg font-medium"
+                class="form-drawer-button form-drawer-button--secondary"
               >
                 Cancel
               </button>
               <button 
                 @click="confirmTime"
-                class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-medium"
+                class="form-drawer-button form-drawer-button--primary"
               >
                 Confirm
               </button>
@@ -393,7 +393,7 @@ const toggleStateDropdown = () => {
   showStateDropdown.value = !showStateDropdown.value;
 };
 
-const selectState = (stateValue) => {
+const selectState = (stateValue: string) => {
   state.value = stateValue;
   showStateDropdown.value = false;
 };
@@ -402,7 +402,7 @@ const togglePropertyTypeDropdown = () => {
   showPropertyTypeDropdown.value = !showPropertyTypeDropdown.value;
 };
 
-const selectPropertyType = (propertyValue) => {
+const selectPropertyType = (propertyValue: string) => {
   propertyType.value = propertyValue;
   showPropertyTypeDropdown.value = false;
 };
@@ -432,8 +432,8 @@ const confirmTime = () => {
 };
 
 // Close dropdown when clicking outside
-const closeDropdownOnOutsideClick = (event) => {
-  if (!event.target.closest('.relative')) {
+const closeDropdownOnOutsideClick = (event: Event) => {
+  if (!(event.target as Element).closest('.relative')) {
     showStateDropdown.value = false;
     showPropertyTypeDropdown.value = false;
   }
@@ -450,6 +450,112 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Form Input Styles */
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Dropdown Button Styles */
+.form-dropdown-button {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-dropdown-button:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.form-dropdown-button--active {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Dropdown Menu Styles */
+.form-dropdown-menu {
+  position: absolute;
+  z-index: 50;
+  width: 100%;
+  margin-top: 0.25rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.form-dropdown-item {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  color: #374151;
+  transition: colors 0.15s ease;
+}
+
+.form-dropdown-item:focus {
+  background-color: #f3f4f6;
+  outline: none;
+}
+
+.form-dropdown-item--selected {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* Drawer Input Styles */
+.form-drawer-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.125rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.form-drawer-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Drawer Button Styles */
+.form-drawer-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.form-drawer-button--primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.form-drawer-button--secondary {
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+/* Animation Transitions */
 .slide-fade-enter-active {
   transition: all 0.5s ease-out;
 }
