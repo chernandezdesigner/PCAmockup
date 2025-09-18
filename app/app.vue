@@ -556,29 +556,28 @@
                             v-for="(material, index) in problematicMaterials"
                             :key="material.id"
                             class="scrollable-option-item"
+                            :class="{ 'border-b border-gray-200': index < problematicMaterials.length - 1 }"
                           >
-                            <div class="option-header">
-                              <span class="option-label">{{ material.name }}</span>
-                              <div class="option-controls">
-                                <label class="modern-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    :id="`material-${material.id}`"
-                                    v-model="material.value"
-                                    class="modern-checkbox-input"
-                                  />
-                                  <span class="modern-checkbox-box"></span>
-                                </label>
-                                <span class="modern-status-badge" :class="{ 'modern-status-badge--active': material.value }">{{ material.value ? 'Yes' : 'No' }}</span>
-                                <button
-                                  @click="toggleMaterialComment(material.id)"
-                                  type="button"
-                                  class="comment-button"
-                                  :class="{ 'comment-button--active': material.showComment }"
-                                >
-                                  Comment
-                                </button>
-                              </div>
+                            <span class="option-label">{{ material.name }}</span>
+                            <div class="option-controls">
+                              <label class="modern-checkbox">
+                                <input
+                                  type="checkbox"
+                                  :id="`material-${material.id}`"
+                                  v-model="material.value"
+                                  class="modern-checkbox-input"
+                                />
+                                <span class="modern-checkbox-box"></span>
+                              </label>
+                              <span class="modern-status-badge" :class="{ 'modern-status-badge--active': material.value }">{{ material.value ? 'Yes' : 'No' }}</span>
+                              <button
+                                @click="toggleMaterialComment(material.id)"
+                                type="button"
+                                class="comment-button"
+                                :class="{ 'comment-button--active': material.showComment }"
+                              >
+                                Comment
+                              </button>
                             </div>
 
                             <!-- Comment Section -->
@@ -1660,10 +1659,13 @@ onUnmounted(() => {
 .scrollable-card-content {
   max-height: 20rem;
   overflow-y: auto;
+  overflow-x: hidden;
   margin: -0.25rem -0.5rem;
   padding: 0.25rem 0.5rem;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f8fafc;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .scrollable-card-content::-webkit-scrollbar {
@@ -1684,34 +1686,27 @@ onUnmounted(() => {
   display: block;
   padding: 1rem 0.75rem;
   min-height: 60px;
-  border-bottom: 1px solid #f1f5f9;
 }
 
 .scrollable-option-item:last-child {
   border-bottom: none;
 }
 
-.option-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
 .option-label {
+  display: block;
   font-size: 1rem;
   font-weight: 500;
   color: #111827;
   line-height: 1.5;
-  flex: 1;
-  margin-right: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .option-controls {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .comment-button {
@@ -2401,6 +2396,22 @@ input[type="checkbox"] {
   .option-label {
     font-size: 1rem;
     line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .option-controls {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .comment-button {
+    flex: 1;
+    min-width: 100px;
+    max-width: 120px;
+  }
+
+  .modern-status-badge {
+    min-width: 60px;
   }
 
   .problematic-textarea {
