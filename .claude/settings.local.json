@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/beats/OneDrive/Pictures/Screenshots 1/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
