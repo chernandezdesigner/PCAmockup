@@ -6,9 +6,9 @@
         <Breadcrumbs :current-step="currentStep" :total-steps="totalSteps" />
         
         <!-- Form Container -->
-        <form @submit.prevent="handleSubmit" class="flex flex-col flex-1 min-h-0">
+        <form @submit.prevent="handleSubmit" class="flex flex-col flex-1 min-h-0 bg-gray-50">
           <!-- Scrollable Content Area -->
-          <div class="flex-1 px-6 py-6 space-y-6 overflow-y-auto min-h-0">
+          <div class="flex-1 px-6 py-6 space-y-8 overflow-y-auto min-h-0">
             <!-- Step Content Container -->
             <Transition
               name="step-transition"
@@ -145,7 +145,7 @@
                           type="button"
                           class="form-dropdown-button"
                         >
-                          <span class="text-gray-700">{{ selectedDate || 'Select Date' }}</span>
+                          <span class="text-gray-700">{{ formatDisplayDate(selectedDate) || 'Select Date' }}</span>
                           <svg 
                             class="w-4 h-4 text-gray-400"
                             fill="none" 
@@ -165,7 +165,7 @@
                           type="button"
                           class="form-dropdown-button"
                         >
-                          <span class="text-gray-700">{{ selectedTime || 'Select Time' }}</span>
+                          <span class="text-gray-700">{{ formatDisplayTime(selectedTime) || 'Select Time' }}</span>
                           <svg 
                             class="w-4 h-4 text-gray-400"
                             fill="none" 
@@ -678,13 +678,55 @@
               </button>
             </div>
             
-            <!-- Date Picker -->
-            <div class="p-4">
-              <input
-                v-model="selectedDate"
-                type="date"
-                class="form-drawer-input"
-              />
+            <!-- Custom Date Picker -->
+            <div class="p-6">
+              <div class="date-picker-grid">
+                <!-- Month/Year Header -->
+                <div class="flex items-center justify-between mb-6">
+                  <button
+                    @click="previousMonth"
+                    class="date-nav-button"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <h4 class="text-lg font-semibold text-gray-900">{{ currentMonthYear }}</h4>
+                  <button
+                    @click="nextMonth"
+                    class="date-nav-button"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Day Labels -->
+                <div class="grid grid-cols-7 gap-1 mb-2">
+                  <div v-for="day in dayLabels" :key="day" class="text-center text-sm font-medium text-gray-500 py-2">
+                    {{ day }}
+                  </div>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="grid grid-cols-7 gap-1">
+                  <button
+                    v-for="date in calendarDates"
+                    :key="date.key"
+                    @click="selectDate(date)"
+                    :disabled="!date.inCurrentMonth"
+                    class="date-cell"
+                    :class="{
+                      'date-cell--today': date.isToday,
+                      'date-cell--selected': date.isSelected,
+                      'date-cell--other-month': !date.inCurrentMonth
+                    }"
+                  >
+                    {{ date.day }}
+                  </button>
+                </div>
+              </div>
             </div>
             
             <!-- Actions -->
@@ -734,13 +776,73 @@
               </button>
             </div>
             
-            <!-- Time Picker -->
-            <div class="p-4">
-              <input
-                v-model="selectedTime"
-                type="time"
-                class="form-drawer-input"
-              />
+            <!-- Custom Time Picker -->
+            <div class="p-6">
+              <div class="time-picker-container">
+                <div class="flex items-center justify-center space-x-4">
+                  <!-- Hour Selector -->
+                  <div class="time-column">
+                    <label class="time-label">Hour</label>
+                    <div class="time-scroll-area">
+                      <button
+                        v-for="hour in hours"
+                        :key="hour"
+                        @click="selectedHour = hour"
+                        class="time-option"
+                        :class="{ 'time-option--selected': selectedHour === hour }"
+                      >
+                        {{ hour.toString().padStart(2, '0') }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="text-2xl font-bold text-gray-400">:</div>
+
+                  <!-- Minute Selector -->
+                  <div class="time-column">
+                    <label class="time-label">Minute</label>
+                    <div class="time-scroll-area">
+                      <button
+                        v-for="minute in minutes"
+                        :key="minute"
+                        @click="selectedMinute = minute"
+                        class="time-option"
+                        :class="{ 'time-option--selected': selectedMinute === minute }"
+                      >
+                        {{ minute.toString().padStart(2, '0') }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- AM/PM Selector -->
+                  <div class="time-column">
+                    <label class="time-label">Period</label>
+                    <div class="time-scroll-area">
+                      <button
+                        @click="selectedPeriod = 'AM'"
+                        class="time-option"
+                        :class="{ 'time-option--selected': selectedPeriod === 'AM' }"
+                      >
+                        AM
+                      </button>
+                      <button
+                        @click="selectedPeriod = 'PM'"
+                        class="time-option"
+                        :class="{ 'time-option--selected': selectedPeriod === 'PM' }"
+                      >
+                        PM
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Time Display -->
+                <div class="mt-6 text-center">
+                  <div class="text-2xl font-bold text-gray-900">
+                    {{ formatSelectedTime() }}
+                  </div>
+                </div>
+              </div>
             </div>
             
             <!-- Actions -->
@@ -766,7 +868,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Transition, onMounted, onUnmounted } from 'vue';
+import { ref, computed, Transition, onMounted, onUnmounted } from 'vue';
 import PhoneMockup from '../components/PhoneMockup.vue';
 import HeaderBar from '../components/HeaderBar.vue';
 import Breadcrumbs from '../components/Breadcrumbs.vue';
@@ -787,6 +889,18 @@ const selectedTime = ref('');
 const showTimeDrawer = ref(false);
 const leaseType = ref('');
 const showLeaseTypeDropdown = ref(false);
+
+// Date picker state
+const currentDate = ref(new Date());
+const selectedDateObj = ref(new Date());
+const dayLabels = ref(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+
+// Time picker state
+const selectedHour = ref(new Date().getHours() % 12 || 12);
+const selectedMinute = ref(0);
+const selectedPeriod = ref(new Date().getHours() >= 12 ? 'PM' : 'AM');
+const hours = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+const minutes = ref([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]);
 
 // Step management
 const currentStep = ref(1);
@@ -946,6 +1060,39 @@ const utilities = ref({
   wastewaterTreatmentPlant: ''
 });
 
+// Computed properties
+const currentMonthYear = computed(() => {
+  return currentDate.value.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+});
+
+const calendarDates = computed(() => {
+  const year = currentDate.value.getFullYear();
+  const month = currentDate.value.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startDate = new Date(firstDay);
+  startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+  const dates = [];
+  const today = new Date();
+
+  for (let i = 0; i < 42; i++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
+
+    dates.push({
+      day: date.getDate(),
+      date: date,
+      key: date.toISOString(),
+      inCurrentMonth: date.getMonth() === month,
+      isToday: date.toDateString() === today.toDateString(),
+      isSelected: selectedDateObj.value && date.toDateString() === selectedDateObj.value.toDateString()
+    });
+  }
+
+  return dates;
+});
+
 // Methods
 const toggleStateDropdown = () => {
   showStateDropdown.value = !showStateDropdown.value;
@@ -982,10 +1129,6 @@ const closeDateDrawer = () => {
   showDateDrawer.value = false;
 };
 
-const confirmDate = () => {
-  showDateDrawer.value = false;
-};
-
 const openTimeDrawer = () => {
   showTimeDrawer.value = true;
 };
@@ -994,8 +1137,64 @@ const closeTimeDrawer = () => {
   showTimeDrawer.value = false;
 };
 
+// Date picker methods
+const previousMonth = () => {
+  const newDate = new Date(currentDate.value);
+  newDate.setMonth(newDate.getMonth() - 1);
+  currentDate.value = newDate;
+};
+
+const nextMonth = () => {
+  const newDate = new Date(currentDate.value);
+  newDate.setMonth(newDate.getMonth() + 1);
+  currentDate.value = newDate;
+};
+
+const selectDate = (dateObj: any) => {
+  if (dateObj.inCurrentMonth) {
+    selectedDateObj.value = dateObj.date;
+    selectedDate.value = dateObj.date.toISOString().split('T')[0];
+  }
+};
+
+const confirmDate = () => {
+  showDateDrawer.value = false;
+};
+
 const confirmTime = () => {
+  const hour24 = selectedPeriod.value === 'PM' && selectedHour.value !== 12
+    ? selectedHour.value + 12
+    : selectedPeriod.value === 'AM' && selectedHour.value === 12
+    ? 0
+    : selectedHour.value;
+
+  const timeString = `${hour24.toString().padStart(2, '0')}:${selectedMinute.value.toString().padStart(2, '0')}`;
+  selectedTime.value = timeString;
   showTimeDrawer.value = false;
+};
+
+// Format display methods
+const formatDisplayDate = (dateString: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
+const formatDisplayTime = (timeString: string) => {
+  if (!timeString) return '';
+  const [hours, minutes] = timeString.split(':');
+  const hour = parseInt(hours);
+  const period = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${minutes} ${period}`;
+};
+
+const formatSelectedTime = () => {
+  return `${selectedHour.value.toString().padStart(2, '0')}:${selectedMinute.value.toString().padStart(2, '0')} ${selectedPeriod.value}`;
 };
 
 // Personnel management methods
@@ -1454,5 +1653,272 @@ input[type="checkbox"] {
 
 .bg-blue-50 {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+/* Modern Section Styling */
+.documentation-section,
+.personnel-section,
+.tenants-section,
+.materials-section,
+.utilities-section {
+  @apply rounded-2xl p-6 transition-all duration-300 cursor-pointer;
+  background: white;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.documentation-section:focus-within,
+.documentation-section:hover {
+  @apply border-blue-200;
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.personnel-section:focus-within,
+.personnel-section:hover {
+  @apply border-green-200;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.tenants-section:focus-within,
+.tenants-section:hover {
+  @apply border-purple-200;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.materials-section:focus-within,
+.materials-section:hover {
+  @apply border-red-200;
+  background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.utilities-section:focus-within,
+.utilities-section:hover {
+  @apply border-cyan-200;
+  background: linear-gradient(135deg, #ecfeff 0%, #ffffff 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Section Headers */
+.section-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.section-title {
+  @apply text-lg font-bold text-gray-900;
+}
+
+.section-subtitle {
+  @apply text-sm text-gray-600 mt-1;
+}
+
+/* Scrollable Lists */
+.scrollable-list {
+  @apply max-h-80 overflow-y-auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.scrollable-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-list::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* List Items */
+.list-item {
+  @apply flex items-center justify-between p-4 mb-3 bg-gray-50 rounded-xl border border-gray-200 transition-all duration-200;
+}
+
+.list-item:hover {
+  @apply bg-white border-gray-300 shadow-sm;
+}
+
+.item-label {
+  @apply text-sm font-medium text-gray-800 flex-1;
+}
+
+.item-controls {
+  @apply flex items-center space-x-3;
+}
+
+/* Custom Checkbox */
+.checkbox-container {
+  @apply relative cursor-pointer;
+}
+
+.checkbox-input {
+  @apply sr-only;
+}
+
+.checkbox-custom {
+  @apply w-5 h-5 border-2 border-gray-300 rounded bg-white transition-all duration-200 flex items-center justify-center;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  @apply bg-blue-600 border-blue-600;
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+  content: '';
+  @apply w-2 h-3 border-white border-r-2 border-b-2 transform rotate-45 translate-y-[-1px];
+}
+
+.checkbox-input:focus + .checkbox-custom {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+/* Status Badges */
+.status-badge {
+  @apply text-xs font-medium px-2 py-1 rounded-full transition-all duration-200;
+  @apply bg-gray-100 text-gray-600;
+}
+
+.status-badge--active {
+  @apply bg-green-100 text-green-800;
+}
+
+/* Dynamic Lists */
+.dynamic-list {
+  @apply space-y-6;
+}
+
+.dynamic-item {
+  @apply bg-white p-6 rounded-xl border border-gray-200 shadow-sm transition-all duration-200;
+}
+
+.dynamic-item:hover {
+  @apply border-gray-300 shadow-md;
+}
+
+.item-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.item-number {
+  @apply text-base font-semibold text-gray-800;
+}
+
+.item-content {
+  @apply space-y-4;
+}
+
+/* Add/Remove Buttons */
+.add-button {
+  @apply w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200;
+  @apply hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-lg;
+}
+
+.remove-button {
+  @apply w-8 h-8 flex items-center justify-center text-red-500 rounded-full transition-all duration-200;
+  @apply hover:text-red-700 hover:bg-red-50 active:scale-95;
+}
+
+/* Toggle Fields */
+.toggle-field {
+  @apply flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200;
+}
+
+.toggle-info {
+  @apply flex-1;
+}
+
+.toggle-label {
+  @apply text-sm font-medium text-gray-800;
+}
+
+.toggle-description {
+  @apply text-xs text-gray-600 mt-1;
+}
+
+.toggle-controls {
+  @apply flex items-center space-x-3;
+}
+
+/* Custom Date Picker */
+.date-picker-grid {
+  @apply select-none;
+}
+
+.date-nav-button {
+  @apply w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors;
+}
+
+.date-cell {
+  @apply w-10 h-10 flex items-center justify-center text-sm font-medium rounded-full transition-all duration-200;
+  @apply text-gray-700 hover:bg-gray-100;
+}
+
+.date-cell--today {
+  @apply bg-blue-100 text-blue-700 font-bold;
+}
+
+.date-cell--selected {
+  @apply bg-blue-600 text-white font-bold;
+}
+
+.date-cell--other-month {
+  @apply text-gray-400 cursor-not-allowed;
+}
+
+.date-cell:disabled {
+  @apply cursor-not-allowed;
+}
+
+/* Custom Time Picker */
+.time-picker-container {
+  @apply select-none;
+}
+
+.time-column {
+  @apply flex flex-col items-center;
+}
+
+.time-label {
+  @apply text-sm font-medium text-gray-700 mb-3;
+}
+
+.time-scroll-area {
+  @apply h-32 overflow-y-auto flex flex-col items-center space-y-2 px-2;
+  scrollbar-width: none;
+}
+
+.time-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.time-option {
+  @apply w-12 h-8 flex items-center justify-center text-sm font-medium rounded-lg transition-all duration-200;
+  @apply text-gray-700 hover:bg-gray-100;
+}
+
+.time-option--selected {
+  @apply bg-blue-600 text-white font-bold;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>
