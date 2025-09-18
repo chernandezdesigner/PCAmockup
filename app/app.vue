@@ -8,7 +8,7 @@
         <!-- Form Container -->
         <form @submit.prevent="handleSubmit" class="flex flex-col flex-1 min-h-0">
           <!-- Scrollable Content Area -->
-          <div class="flex-1 mt-8 px-4 space-y-4 overflow-y-auto min-h-0">
+          <div class="flex-1 px-6 py-6 space-y-6 overflow-y-auto min-h-0">
             <!-- Step Content Container -->
             <Transition
               name="step-transition"
@@ -17,27 +17,39 @@
               <div :key="currentStep" class="space-y-4 pb-4">
                 <!-- Step 1: Project Summary -->
                 <div v-if="currentStep === 1">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Project Summary</h3>
+                  <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Project Summary</h2>
+                    <p class="text-base text-gray-600">Enter basic project information and location details</p>
+                  </div>
                   
-                  <div class="space-y-4">
-                    <input 
-                      v-model="projectName"
-                      type="text" 
-                      class="form-input" 
-                      placeholder="Project Name" 
-                    />
-                    <input 
-                      v-model="projectNumber"
-                      type="text" 
-                      class="form-input" 
-                      placeholder="Project #" 
-                    />
-                    <input 
-                      v-model="address"
-                      type="text" 
-                      class="form-input" 
-                      placeholder="Street Address"
-                    />
+                  <div class="space-y-6">
+                    <div>
+                      <label class="form-label">Project Name</label>
+                      <input
+                        v-model="projectName"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter project name"
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label">Project Number</label>
+                      <input
+                        v-model="projectNumber"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter project ID"
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label">Street Address</label>
+                      <input
+                        v-model="address"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter property address"
+                      />
+                    </div>
                     
                     <Transition
                       name="slide-fade"
@@ -47,16 +59,20 @@
                         v-if="address"
                         class="space-y-4"
                       >
-                      <input 
-                        v-model="city"
-                        type="text" 
-                        class="form-input" 
-                        placeholder="City"
-                      />
+                      <div>
+                        <label class="form-label">City</label>
+                        <input
+                          v-model="city"
+                          type="text"
+                          class="form-input"
+                          placeholder="Enter city"
+                        />
+                      </div>
                       
                       <div class="grid grid-cols-2 gap-4">
                         <!-- Mobile-friendly State Selector -->
                         <div class="relative">
+                          <label class="form-label">State</label>
                           <button
                             @click="toggleStateDropdown"
                             type="button"
@@ -96,12 +112,16 @@
                             </div>
                           </Transition>
                         </div>
-                        <input 
-                          v-model="zipCode"
-                          type="text" 
-                          class="form-input" 
-                          placeholder="ZIP Code"
-                        />
+                        <div>
+                          <label class="form-label">ZIP Code</label>
+                          <input
+                            v-model="zipCode"
+                            type="text"
+                            pattern="[0-9]{5}(-[0-9]{4})?"
+                            class="form-input"
+                            placeholder="12345"
+                          />
+                        </div>
                       </div>
                       </div>
                     </Transition>
@@ -119,6 +139,7 @@
                     <div class="grid grid-cols-2 gap-4">
                       <!-- Date Selector -->
                       <div class="relative">
+                        <label class="form-label">Inspection Date</label>
                         <button
                           @click="openDateDrawer"
                           type="button"
@@ -138,6 +159,7 @@
 
                       <!-- Time Selector -->
                       <div class="relative">
+                        <label class="form-label">Inspection Time</label>
                         <button
                           @click="openTimeDrawer"
                           type="button"
@@ -161,13 +183,14 @@
                     <input type="text" class="form-input" placeholder="Access Issues?" />
                     <!-- Property Type Selector -->
                     <div class="relative">
+                      <label class="form-label">Surrounding Properties</label>
                       <button
                         @click="togglePropertyTypeDropdown"
                         type="button"
                         class="form-dropdown-button"
                         :class="{ 'form-dropdown-button--active': showPropertyTypeDropdown }"
                       >
-                        <span class="text-gray-700">{{ propertyType || 'Surrounding Properties' }}</span>
+                        <span class="text-gray-700">{{ propertyType || 'Select Property Type' }}</span>
                         <svg 
                           class="w-4 h-4 text-gray-400 transition-transform duration-200"
                           :class="{ 'rotate-180': showPropertyTypeDropdown }"
@@ -207,7 +230,7 @@
                 <div v-if="currentStep === 2">
                   <h3 class="text-lg font-semibold text-gray-900 mb-4">Unit Info</h3>
                   
-                  <div class="space-y-4">
+                  <div class="space-y-6">
                     <input 
                       type="text" 
                       class="form-input" 
@@ -258,13 +281,14 @@
 
                     <!-- Lease Type Selector -->
                     <div class="relative">
+                      <label class="form-label">Lease Type</label>
                       <button
                         @click="toggleLeaseTypeDropdown"
                         type="button"
                         class="form-dropdown-button"
                         :class="{ 'form-dropdown-button--active': showLeaseTypeDropdown }"
                       >
-                        <span class="text-gray-700">{{ leaseType || 'Lease Type' }}</span>
+                        <span class="text-gray-700">{{ leaseType || 'Select Lease Type' }}</span>
                         <svg 
                           class="w-4 h-4 text-gray-400 transition-transform duration-200"
                           :class="{ 'rotate-180': showLeaseTypeDropdown }"
@@ -352,7 +376,7 @@
                         </button>
                       </div>
                       
-                      <div class="space-y-4">
+                      <div class="space-y-6">
                         <div 
                           v-for="(person, index) in personnelList" 
                           :key="person.id"
@@ -414,7 +438,7 @@
                         </button>
                       </div>
                       
-                      <div class="space-y-4">
+                      <div class="space-y-6">
                         <div 
                           v-for="(tenant, index) in tenantList" 
                           :key="tenant.id"
@@ -524,7 +548,7 @@
                     <div class="bg-white border border-gray-200 rounded-lg p-4">
                       <h4 class="text-base font-semibold text-gray-900 mb-4">Utilities</h4>
                       
-                      <div class="space-y-4">
+                      <div class="space-y-6">
                         <input 
                           v-model="utilities.domesticWater"
                           type="text" 
@@ -594,8 +618,8 @@
           </div>
 
           <!-- Sticky Navigation Buttons -->
-          <div class="sticky bottom-0 px-4 py-4 border-t border-gray-200 bg-white shadow-lg">
-            <div class="flex gap-3">
+          <div class="sticky bottom-0 px-6 py-6 border-t border-gray-200 bg-white/95 backdrop-blur-sm shadow-2xl">
+            <div class="flex gap-4">
               <button
                 v-if="currentStep > 1"
                 @click="goToPreviousStep"
@@ -613,9 +637,12 @@
                 class="form-navigation-button form-navigation-button--primary"
                 :class="{ 'flex-1': currentStep === 1 }"
               >
-                {{ currentStep === totalSteps ? 'Submit' : 'Next' }}
+                <span class="font-semibold">{{ currentStep === totalSteps ? 'Submit Assessment' : 'Continue' }}</span>
                 <svg v-if="currentStep < totalSteps" class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+                <svg v-else class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
               </button>
             </div>
@@ -1057,43 +1084,82 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Form Label Styles */
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.025em;
+}
+
 /* Form Input Styles */
 .form-input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  transition: all 0.3s ease;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .form-input:focus {
   border-color: #3b82f6;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: #fefefe;
+}
+
+.form-input:hover:not(:focus) {
+  border-color: #d1d5db;
 }
 
 /* Dropdown Button Styles */
 .form-dropdown-button {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  transition: all 0.3s ease;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
   text-align: left;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  min-height: 52px;
 }
 
 .form-dropdown-button:focus {
   border-color: #3b82f6;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: #fefefe;
+}
+
+.form-dropdown-button:hover:not(:focus) {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
 }
 
 .form-dropdown-button--active {
   border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: #fefefe;
 }
 
 /* Dropdown Menu Styles */
@@ -1101,65 +1167,106 @@ onUnmounted(() => {
   position: absolute;
   z-index: 50;
   width: 100%;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   background-color: white;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  max-height: 15rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-height: 16rem;
   overflow-y: auto;
+  backdrop-filter: blur(8px);
 }
 
 .form-dropdown-item {
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1rem;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: #374151;
-  transition: colors 0.15s ease;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.form-dropdown-item:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
 .form-dropdown-item:focus {
-  background-color: #f3f4f6;
+  background-color: #e0e7ff;
+  color: #3730a3;
   outline: none;
 }
 
 .form-dropdown-item--selected {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
 }
 
 /* Drawer Input Styles */
 .form-drawer-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem 1.25rem;
   font-size: 1.125rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .form-drawer-input:focus {
   border-color: #3b82f6;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: #fefefe;
 }
 
 /* Drawer Button Styles */
 .form-drawer-button {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-drawer-button--primary {
   background-color: #3b82f6;
   color: white;
+  border: 2px solid #3b82f6;
+}
+
+.form-drawer-button--primary:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.form-drawer-button--primary:active {
+  transform: translateY(0);
 }
 
 .form-drawer-button--secondary {
   color: #4b5563;
-  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+}
+
+.form-drawer-button--secondary:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
 }
 
 /* Navigation Button Styles */
@@ -1167,84 +1274,120 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-  min-height: 44px; /* Mobile touch target */
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  min-height: 56px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
 }
 
 .form-navigation-button--primary {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  border: none;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
 }
 
 .form-navigation-button--primary:hover {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.4);
 }
 
 .form-navigation-button--primary:active {
-  background-color: #1d4ed8;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.3);
 }
 
 .form-navigation-button--secondary {
-  background-color: white;
+  background-color: #ffffff;
   color: #4b5563;
-  border: 1px solid #d1d5db;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
 }
 
 .form-navigation-button--secondary:hover {
   background-color: #f9fafb;
-  border-color: #9ca3af;
+  border-color: #d1d5db;
+  color: #374151;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 .form-navigation-button--secondary:active {
+  transform: translateY(0);
   background-color: #f3f4f6;
 }
 
 /* Animation Transitions */
 .slide-fade-enter-active {
-  transition: all 0.5s ease-out;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .slide-fade-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.25s ease-in;
 }
 
 .slide-fade-enter-from {
-  transform: translateY(-20px);
+  transform: translateY(-16px);
   opacity: 0;
 }
 
 .slide-fade-leave-to {
-  transform: translateY(-20px);
+  transform: translateY(-16px);
   opacity: 0;
+}
+
+/* Focus and accessibility improvements */
+.form-input:focus,
+.form-dropdown-button:focus,
+.form-navigation-button:focus,
+.form-drawer-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Mobile-optimized touch targets */
+@media (max-width: 768px) {
+  .form-navigation-button {
+    min-height: 48px;
+    padding: 0.875rem 1.25rem;
+  }
+
+  .form-dropdown-button {
+    min-height: 48px;
+  }
+
+  .form-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
 }
 
 /* Dropdown transition */
 .dropdown-enter-active {
-  transition: all 0.2s ease-out;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .dropdown-leave-active {
-  transition: all 0.15s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .dropdown-enter-from {
-  transform: translateY(-10px);
+  transform: translateY(-8px) scale(0.95);
   opacity: 0;
 }
 
 .dropdown-leave-to {
-  transform: translateY(-10px);
+  transform: translateY(-8px) scale(0.95);
   opacity: 0;
 }
 
 /* Drawer transition */
 .drawer-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .drawer-leave-active {
@@ -1253,15 +1396,17 @@ onUnmounted(() => {
 
 .drawer-enter-from {
   transform: translateY(100%);
+  opacity: 0;
 }
 
 .drawer-leave-to {
   transform: translateY(100%);
+  opacity: 0;
 }
 
 /* Step transition */
 .step-transition-enter-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .step-transition-leave-active {
@@ -1269,12 +1414,45 @@ onUnmounted(() => {
 }
 
 .step-transition-enter-from {
-  transform: translateX(30px);
+  transform: translateX(24px);
   opacity: 0;
 }
 
 .step-transition-leave-to {
-  transform: translateX(-30px);
+  transform: translateX(-24px);
   opacity: 0;
+}
+
+/* Enhanced visual hierarchy */
+.form-label {
+  position: relative;
+}
+
+/* Improved checkbox styling */
+input[type="checkbox"] {
+  accent-color: #3b82f6;
+  transform: scale(1.1);
+}
+
+/* Better visual feedback for interactive elements */
+.hover\:border-gray-300:hover {
+  border-color: #d1d5db !important;
+}
+
+.hover\:border-red-300:hover {
+  border-color: #fca5a5 !important;
+}
+
+/* Improved section styling */
+.bg-gray-50 {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.bg-red-50 {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+}
+
+.bg-blue-50 {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
 }
 </style>

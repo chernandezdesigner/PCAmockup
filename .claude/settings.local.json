@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/beats/OneDrive/Pictures/Screenshots 1/**)"
+      "Read(//c/Users/beats/OneDrive/Pictures/Screenshots 1/**)",
+      "WebFetch(domain:m3.material.io)",
+      "WebFetch(domain:base.uber.com)"
     ],
     "deny": [],
     "ask": []
