@@ -1,0 +1,90 @@
+# UX/UI Design Context for Commercial Property Assessment Mobile App Prototype
+
+## Project Purpose & Scope
+This is a HIGH-FIDELITY MOBILE WIREFRAME/PROTOTYPE for a commercial property assessment mobile app. This is NOT a production application - it's purely for:
+- Stakeholder demonstrations and presentations
+- User experience testing and validation
+- Visual design exploration and iteration
+- Concept validation before actual mobile app development
+
+## Design Philosophy & Approach
+
+### Mobile-First UX Principles
+- Touch-first interaction design with minimum 44px touch targets
+- Progressive disclosure to reduce cognitive load on mobile screens
+- Clear visual hierarchy with appropriate typography scaling
+- Contextual micro-interactions and meaningful animations
+- Accessibility-first approach (contrast, screen readers, motor accessibility)
+
+### Commercial Property Assessment Context
+- Designed for field inspectors working on-site at commercial properties
+- Optimized for outdoor/varying lighting conditions (high contrast design)
+- Form flows should minimize input errors and maximize completion rates
+- Consider inspectors wearing gloves or working in challenging conditions
+- Progressive form filling with logical grouping and conditional fields
+
+## Technical Implementation Guidelines
+
+### Component Design Standards
+- Use DaisyUI components as base, customize for mobile-specific needs
+- Implement custom mobile interactions (drawers, bottom sheets, gestures)
+- Ensure all interactive elements have appropriate loading/pressed states
+- Use CSS transitions for smooth, performant animations (avoid JS animations when possible)
+- Implement proper focus management for accessibility
+
+### Form UX Best Practices
+- Group related fields logically with clear visual separation
+- Use progressive disclosure - show fields only when relevant
+- Implement inline validation with clear, helpful error messages
+- Provide clear visual feedback for all user actions
+- Consider offline states and data persistence (even in prototype)
+
+### Visual Design Consistency
+- Maintain consistent spacing using Tailwind's scale (4px increments)
+- Use semantic color system from DaisyUI with custom property assessment theme
+- Typography hierarchy should support scanning and quick reading
+- Icons should be clear at mobile sizes and support the assessment context
+
+## Development Workflow
+
+### Prototyping Iterations
+- Build complete user flows, not just isolated screens
+- Create multiple states (empty, loading, error, success) for each screen
+- Test on actual mobile devices, not just browser dev tools
+- Document UX decisions and rationale for stakeholder presentations
+
+### Stakeholder Presentation Considerations
+- Build smooth transitions between screens for demo flow
+- Include realistic data and content (property types, addresses, etc.)
+- Consider adding "tour mode" or guided walkthrough capabilities
+- Ensure prototype works reliably during presentations
+
+## Content & Data Guidelines
+
+### Realistic Property Assessment Data
+- Use actual commercial property types and assessment criteria
+- Include realistic address data and property information
+- Consider regional differences in property assessment requirements
+- Use professional, clear language appropriate for field inspectors
+
+### Accessibility & Inclusivity
+- Design for varying levels of technical expertise among inspectors
+- Consider multilingual support needs for diverse inspector teams
+- Ensure design works for users with vision, motor, or cognitive differences
+- Test with actual property assessment professionals when possible
+
+## File Organization & Naming
+
+### Component Structure
+- Keep mobile-specific components in dedicated folders
+- Name components clearly (e.g., PropertyAssessmentForm, MobileDrawer)
+- Separate presentation components from business logic
+- Create reusable form field components for consistency
+
+### Design System Approach
+- Document design tokens and component variations
+- Create a style guide within the prototype for handoff
+- Maintain consistency in spacing, colors, and typography
+- Build components that can easily translate to React Native later
+
+Remember: This prototype's primary goal is to validate UX concepts and demonstrate the user experience to stakeholders. Prioritize user experience over technical complexity.
