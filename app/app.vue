@@ -15,6 +15,8 @@
               mode="out-in"
             >
               <div :key="currentStep" class="space-y-4 pb-4">
+
+                <!--Start of Form 1 - Project Summary-->
                 <!-- Step 1: Project Summary -->
                 <div v-if="currentStep === 1">
                   <div class="mb-8">
@@ -711,6 +713,400 @@
                     </div>
                   </div>
                 </div>
+
+                <!--End of Form 1 - Project Summary-->
+
+
+                <!--Start of Form 2 - Site Grounds-->
+                <div v-if="currentStep === 5">
+                  <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Drainage and Erosion</h2>
+                  </div>
+
+                  <div class="space-y-8">
+                    <!-- Drainage and erosion Section -->
+
+                    <!-- Storm Drainage List Section -->
+                    <div>
+                      <div class="mb-3">
+                        <p class="text-sm text-gray-600">Select storm drainage system types present</p>
+                      </div>
+                      
+                      <div class="modern-dynamic-item">
+                        <div class="scrollable-card-content">
+                          <div
+                            v-for="(option, index) in stormDrainageOptions"
+                            :key="option.id"
+                            class="scrollable-option-item"
+                            :class="{ 'border-b border-gray-200': index < stormDrainageOptions.length - 1 }"
+                          >
+                            <span class="option-label">{{ option.name }}</span>
+                            <div class="option-controls">
+                              <label class="modern-checkbox">
+                                <input
+                                  type="checkbox"
+                                  :id="`storm-drainage-${option.id}`"
+                                  v-model="option.value"
+                                  class="modern-checkbox-input"
+                                />
+                                <span class="modern-checkbox-box"></span>
+                              </label>
+                              <span class="modern-status-badge" :class="{ 'modern-status-badge--active': option.value }">{{ option.value ? 'Yes' : 'No' }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Surface to select options *make a select all applicable button*-->
+                    <div class="relative">
+                      <label class="form-label">Surface Types</label>
+                      <button
+                        @click="toggleSurfaceTypeDropdown"
+                        type="button"
+                        class="form-dropdown-button"
+                        :class="{ 'form-dropdown-button--active': showSurfaceTypeDropdown }"
+                      >
+                        <span class="text-gray-700">{{ surfaceTypeDisplayText }}</span>
+                        <svg 
+                          class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                          :class="{ 'rotate-180': showSurfaceTypeDropdown }"
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      
+                      <!-- Dropdown Menu -->
+                      <Transition name="dropdown">
+                        <div 
+                          v-if="showSurfaceTypeDropdown"
+                          class="form-dropdown-menu"
+                        >
+                          <div class="py-1">
+                            <label
+                              v-for="surfaceTypeOption in surfaceTypes"
+                              :key="surfaceTypeOption.value"
+                              class="form-dropdown-item flex items-center cursor-pointer hover:bg-gray-50"
+                            >
+                              <input
+                                type="checkbox"
+                                :value="surfaceTypeOption.value"
+                                v-model="surfaceType"
+                                class="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <span class="text-sm text-gray-700">{{ surfaceTypeOption.label }}</span>
+                            </label>
+                          </div>
+                        </div>
+                      </Transition>
+                    </div>
+
+                    <!-- good fair poor Section -->
+                    <div>
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Condition Assessment</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="condition-assessment" 
+                              value="good" 
+                              class="sr-only peer"
+                              v-model="conditionAssessment"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+                          
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="condition-assessment" 
+                              value="fair" 
+                              class="sr-only peer"
+                              v-model="conditionAssessment"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+                          
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="condition-assessment" 
+                              value="poor" 
+                              class="sr-only peer"
+                              v-model="conditionAssessment"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+
+
+                    <!-- Comments -->
+                    <div>
+                      <div class="mb-3">
+                        <label class="form-label">Comments</label>
+                        <textarea class="form-input" placeholder="Comments"></textarea>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div v-if="currentStep === 6">
+                  <!-- accordion for topography and erosion sub items-->
+                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+                    <input type="radio" name="my-accordion-2" :checked="true" />
+                    <div class="collapse-title font-semibold">Topography Slope</div>
+                    <div class="collapse-content text-sm">
+                      <!-- Topography Slope Dropdown -->
+                      <div class="mb-4">
+                        <div class="relative">
+                          <label class="form-label">Slope Type</label>
+                          <button
+                            @click="toggleTopographySlopeDropdown"
+                            type="button"
+                            class="form-dropdown-button"
+                            :class="{ 'form-dropdown-button--active': showTopographySlopeDropdown }"
+                          >
+                            <span class="text-gray-700">{{ topographySlope || 'Select slope type' }}</span>
+                            <svg 
+                              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                              :class="{ 'rotate-180': showTopographySlopeDropdown }"
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                          
+                          <!-- Dropdown Menu -->
+                          <Transition name="dropdown">
+                            <div 
+                              v-if="showTopographySlopeDropdown"
+                              class="form-dropdown-menu"
+                            >
+                              <div class="py-1">
+                                <button
+                                  v-for="slopeOption in topographySlopeOptions"
+                                  :key="slopeOption.value"
+                                  @click="selectTopographySlope(slopeOption.value)"
+                                  type="button"
+                                  class="form-dropdown-item"
+                                  :class="{ 'form-dropdown-item--selected': topographySlope === slopeOption.value }"
+                                >
+                                  {{ slopeOption.label }}
+                                </button>
+                              </div>
+                            </div>
+                          </Transition>
+                        </div>
+                      </div>
+
+                      <!-- Topography Condition Assessment -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Condition Assessment</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="topography-condition-assessment" 
+                              value="good" 
+                              class="sr-only peer"
+                              v-model="topographyCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+                          
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="topography-condition-assessment" 
+                              value="fair" 
+                              class="sr-only peer"
+                              v-model="topographyCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+                          
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="topography-condition-assessment" 
+                              value="poor" 
+                              class="sr-only peer"
+                              v-model="topographyCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Repair Status Toggle -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Repair Status</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- First Row -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="IR" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">IR</span>
+                            </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="ST" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">ST</span>
+                            </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="RR" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RR</span>
+                            </div>
+                          </label>
+                          
+                          <!-- Second Row -->
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="RM" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RM</span>
+                            </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="INV" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">INV</span>
+                            </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
+                            <input 
+                              type="radio" 
+                              name="repair-status" 
+                              value="NA" 
+                              class="sr-only peer"
+                              v-model="repairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">NA</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Amount to Repair and Replace -->
+                      <div class="mb-3">
+                        <label class="form-label">Amount to Repair and Replace</label>
+                        <input 
+                          type="text" 
+                          class="form-input" 
+                          placeholder="Value?" 
+                        />
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+                    <input type="radio" name="my-accordion-2" />
+                    <div class="collapse-title font-semibold">Landscaping</div>
+                    <div class="collapse-content text-sm">
+
+                    </div>
+                  </div>
+                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+                    <input type="radio" name="my-accordion-2" />
+                    <div class="collapse-title font-semibold">Retaining Walls</div>
+                    <div class="collapse-content text-sm">
+
+                    </div>
+                  </div>
+
+                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+                    <input type="radio" name="my-accordion-2" />
+                    <div class="collapse-title font-semibold">Screen Walls</div>
+                    <div class="collapse-content text-sm">
+
+                    </div>
+                  </div>
+
+                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+                    <input type="radio" name="my-accordion-2" />
+                    <div class="collapse-title font-semibold">Water Features</div>
+                    <div class="collapse-content text-sm">
+
+                    </div>
+                  </div>
+
+
+                </div>
+
               </div>
             </Transition>
           </div>
@@ -987,6 +1383,8 @@ const selectedTime = ref('');
 const showTimeDrawer = ref(false);
 const leaseType = ref('');
 const showLeaseTypeDropdown = ref(false);
+const surfaceType = ref<string[]>([]);
+const showSurfaceTypeDropdown = ref(false);
 
 // Date picker state
 const currentDate = ref(new Date());
@@ -1002,7 +1400,7 @@ const minutes = ref([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]);
 
 // Step management
 const currentStep = ref(1);
-const totalSteps = ref(4);
+const totalSteps = ref(6);
 
 // States data
 const states = ref([
@@ -1098,11 +1496,45 @@ const documentationList = ref([
   { id: 18, name: 'Vendor List', value: null },
   { id: 19, name: 'Floor Plans', value: null },
   { id: 20, name: 'Elevator Certificates', value: null },
-  { id: 21, name: 'Healthcare Inspection', value: null },
-  { id: 22, name: 'Roof Warranty', value: null },
-  { id: 23, name: 'Boiler Permits', value: null },
-  { id: 24, name: 'Other', value: null },
-  { id: 25, name: 'Warranties', value: null }
+]);
+
+// Storm drainage system options
+const stormDrainageOptions = ref([
+  { id: 1, name: 'Underground to municipal Storm System', value: null },
+  { id: 2, name: 'Concrete Swales', value: null },
+  { id: 3, name: 'Surface Drains', value: null },
+  { id: 4, name: 'Curb Inlets', value: null },
+  { id: 5, name: 'Adjacent Property', value: null },
+]);
+
+// Surface types data
+const surfaceTypes = ref([
+  { value: 'ditch', label: 'Ditch' },
+  { value: 'stream', label: 'Stream' },
+  { value: 'retention-pond', label: 'Retention Pond' },
+  { value: 'detention-pond', label: 'Detention Pond' },
+  { value: 'parking-garage-sump', label: 'Parking Garage Sump' },
+  { value: 'drywell', label: 'Drywell' }
+]);
+
+// Topography slope options data
+const topographySlopeOptions = ref([
+  { value: 'flat', label: 'Flat' },
+  { value: 'gentle-slope', label: 'Gentle Slope' },
+  { value: 'moderate-slope', label: 'Moderate Slope' },
+  { value: 'significant-slope', label: 'Significant Slope' },
+  { value: 'highly-variable', label: 'Highly Variable' },
+  { value: 'erosion', label: 'Erosion' }
+]);
+
+// Repair status options data
+const repairStatusOptions = ref([
+  { value: 'IR', label: 'IR' },
+  { value: 'ST', label: 'ST' },
+  { value: 'RR', label: 'RR' },
+  { value: 'RM', label: 'RM' },
+  { value: 'INV', label: 'INV' },
+  { value: 'NA', label: 'NA' }
 ]);
 
 // Personnel list data
@@ -1158,6 +1590,17 @@ const utilities = ref({
   wastewaterTreatmentPlant: ''
 });
 
+// Condition assessment toggle
+const conditionAssessment = ref('');
+
+// Topography data
+const topographySlope = ref('');
+const showTopographySlopeDropdown = ref(false);
+const topographyCondition = ref('');
+
+// Repair status data
+const repairStatus = ref('');
+
 // Computed properties
 const currentMonthYear = computed(() => {
   return currentDate.value.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
@@ -1191,6 +1634,38 @@ const calendarDates = computed(() => {
   return dates;
 });
 
+// Surface type display text with truncation
+const surfaceTypeDisplayText = computed(() => {
+  if (surfaceType.value.length === 0) {
+    return 'Select all applicable';
+  }
+  
+  const selectedLabels = surfaceType.value.map(value => {
+    const option = surfaceTypes.value.find(opt => opt.value === value);
+    return option ? option.label : value;
+  });
+  
+  const fullText = selectedLabels.join(', ');
+  const maxLength = 40; // Adjust this value based on your button width
+  
+  if (fullText.length <= maxLength) {
+    return fullText;
+  }
+  
+  // Find the last complete option that fits
+  let truncatedText = '';
+  for (let i = 0; i < selectedLabels.length; i++) {
+    const testText = i === 0 ? selectedLabels[i] : truncatedText + ', ' + selectedLabels[i];
+    if (testText && testText.length + 3 <= maxLength) { // +3 for "..."
+      truncatedText = testText;
+    } else {
+      break;
+    }
+  }
+  
+  return truncatedText + '...';
+});
+
 // Methods
 const toggleStateDropdown = () => {
   showStateDropdown.value = !showStateDropdown.value;
@@ -1200,6 +1675,24 @@ const selectState = (stateValue: string) => {
   state.value = stateValue;
   showStateDropdown.value = false;
 };
+
+const toggleSurfaceTypeDropdown = () => {
+  showSurfaceTypeDropdown.value = !showSurfaceTypeDropdown.value;
+};
+
+// Surface type selection is now handled by v-model with checkboxes
+// No need for individual selection method
+
+const toggleTopographySlopeDropdown = () => {
+  showTopographySlopeDropdown.value = !showTopographySlopeDropdown.value;
+};
+
+const selectTopographySlope = (slopeValue: string) => {
+  topographySlope.value = slopeValue;
+  showTopographySlopeDropdown.value = false;
+};
+
+
 
 const togglePropertyTypeDropdown = () => {
   showPropertyTypeDropdown.value = !showPropertyTypeDropdown.value;
@@ -2419,5 +2912,22 @@ input[type="checkbox"] {
     font-size: 1rem;
     padding: 0.875rem;
   }
+}
+
+/* Condition Assessment Toggle Styles */
+.peer-hover\:bg-green-25:hover {
+  background-color: rgba(34, 197, 94, 0.05);
+}
+
+.peer-hover\:bg-yellow-25:hover {
+  background-color: rgba(234, 179, 8, 0.05);
+}
+
+.peer-hover\:bg-red-25:hover {
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.peer-hover\:bg-blue-25:hover {
+  background-color: rgba(59, 130, 246, 0.05);
 }
 </style>
