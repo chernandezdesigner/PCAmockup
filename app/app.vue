@@ -877,10 +877,14 @@
                     <h2 class="text-2xl font-bold text-gray-900 mb-2">Topography</h2>
                   </div>
                   <!-- accordion for topography and erosion sub items-->
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" :checked="true" />
-                    <div class="collapse-title font-semibold">Topography Slope</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'topography-slope' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('topography-slope')">
+                      Topography Slope
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'topography-slope' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'topography-slope'">
                       <!-- Topography Slope Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -1076,10 +1080,14 @@
                     </div>
                   </div>
 
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" />
-                    <div class="collapse-title font-semibold">Landscaping</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'landscaping' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('landscaping')">
+                      Landscaping
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'landscaping' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'landscaping'">
                       <!-- Landscaping Type Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -1275,10 +1283,14 @@
                     </div>
                   </div>
 
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" />
-                    <div class="collapse-title font-semibold">Retaining Walls</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'retaining-walls' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('retaining-walls')">
+                      Retaining Walls
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'retaining-walls' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'retaining-walls'">
                       <!-- Retaining Walls Type Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -1324,16 +1336,16 @@
                         </div>
                       </div>
 
-                      <!-- Topography Condition Assessment -->
+                      <!-- Retaining Walls Condition Assessment -->
                       <div class="mb-3">
                         <label class="form-label mb-3 block">Condition Assessment</label>
                         <div class="grid grid-cols-3 gap-2 w-full">
                           <!-- Good Button -->
                           <label class="relative cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name="topography-condition-assessment" 
-                              value="good" 
+                            <input
+                              type="radio"
+                              name="topography-condition-assessment"
+                              value="good"
                               class="sr-only peer"
                               v-model="topographyCondition"
                             />
@@ -1342,13 +1354,13 @@
                               <span class="text-sm font-medium">Good</span>
                             </div>
                           </label>
-                          
+
                           <!-- Fair Button -->
                           <label class="relative cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name="topography-condition-assessment" 
-                              value="fair" 
+                            <input
+                              type="radio"
+                              name="topography-condition-assessment"
+                              value="fair"
                               class="sr-only peer"
                               v-model="topographyCondition"
                             />
@@ -1357,13 +1369,13 @@
                               <span class="text-sm font-medium">Fair</span>
                             </div>
                           </label>
-                          
+
                           <!-- Poor Button -->
                           <label class="relative cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name="topography-condition-assessment" 
-                              value="poor" 
+                            <input
+                              type="radio"
+                              name="topography-condition-assessment"
+                              value="poor"
                               class="sr-only peer"
                               v-model="topographyCondition"
                             />
@@ -1447,10 +1459,10 @@
                           </label>
                           
                           <label class="relative cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name="repair-status" 
-                              value="NA" 
+                            <input
+                              type="radio"
+                              name="repair-status"
+                              value="NA"
                               class="sr-only peer"
                               v-model="repairStatus"
                             />
@@ -1464,10 +1476,10 @@
                       <!-- Amount to Repair and Replace -->
                       <div class="mb-3">
                         <label class="form-label">Amount to Repair and Replace</label>
-                        <input 
-                          type="text" 
-                          class="form-input" 
-                          placeholder="Value?" 
+                        <input
+                          type="text"
+                          class="form-input"
+                          placeholder="Value?"
                         />
                       </div>
 
@@ -1697,10 +1709,14 @@
                     </div>
                   </div>
 
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" />
-                    <div class="collapse-title font-semibold">Screen Walls</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'screen-walls' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('screen-walls')">
+                      Screen Walls
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'screen-walls' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'screen-walls'">
                       <!-- Screen Walls Type Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -1746,7 +1762,7 @@
                         </div>
                       </div>
 
-                      <!-- Topography Condition Assessment -->
+                      <!-- Screen Walls Condition Assessment -->
                       <div class="mb-3">
                         <label class="form-label mb-3 block">Condition Assessment</label>
                         <div class="grid grid-cols-3 gap-2 w-full">
@@ -1896,10 +1912,14 @@
                     </div>
                   </div>
 
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" />
-                    <div class="collapse-title font-semibold">Water Features</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'water-features' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('water-features')">
+                      Water Features
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'water-features' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'water-features'">
                       <!-- Water Features Type Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -1945,7 +1965,7 @@
                         </div>
                       </div>
 
-                      <!-- Topography Condition Assessment -->
+                      <!-- Water Features Condition Assessment -->
                       <div class="mb-3">
                         <label class="form-label mb-3 block">Condition Assessment</label>
                         <div class="grid grid-cols-3 gap-2 w-full">
@@ -2304,6 +2324,7 @@
                     </div>
                   </div>
 
+
                   <div class="mb-3 mt-3">
                     <label class="form-label">Comments</label>
                     <textarea class="form-input" placeholder="Comments"></textarea>
@@ -2318,10 +2339,14 @@
                   </div>
 
                   <!-- accordion for general site improvements sub items-->
-                  <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-                    <input type="radio" name="my-accordion-2" :checked="true" />
-                    <div class="collapse-title font-semibold">Signage</div>
-                    <div class="collapse-content text-sm">
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'signage' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('signage')">
+                      Signage
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'signage' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'signage'">
                       <!-- Signage Type Dropdown -->
                       <div class="mb-4">
                         <div class="relative">
@@ -2529,6 +2554,1236 @@
 
                     </div>
                   </div>
+
+                  <!-- Lot Lighting Accordion -->
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'lot-lighting' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('lot-lighting')">
+                      Lot Lighting
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'lot-lighting' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'lot-lighting'">
+                      <!-- Lot Lighting Type Dropdown -->
+                      <div class="mb-4">
+                        <div class="relative">
+                          <label class="form-label">Lot Lighting Type</label>
+                          <button
+                            @click="toggleLotLightingDropdown"
+                            type="button"
+                            class="form-dropdown-button"
+                            :class="{ 'form-dropdown-button--active': showLotLightingDropdown }"
+                          >
+                            <span class="text-gray-700">{{ lotLightingType || 'Select Type' }}</span>
+                            <svg
+                              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                              :class="{ 'rotate-180': showLotLightingDropdown }"
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+
+                          <!-- Dropdown Menu -->
+                          <Transition name="dropdown">
+                            <div
+                              v-if="showLotLightingDropdown"
+                              class="form-dropdown-menu"
+                            >
+                              <div class="py-1">
+                                <div
+                                  @click="selectLotLightingType('N/A')"
+                                  class="form-dropdown-item"
+                                >
+                                  N/A
+                                </div>
+                                <div
+                                  @click="selectLotLightingType('Metal Pole')"
+                                  class="form-dropdown-item"
+                                >
+                                  Metal Pole
+                                </div>
+                                <div
+                                  @click="selectLotLightingType('Wood Pole')"
+                                  class="form-dropdown-item"
+                                >
+                                  Wood Pole
+                                </div>
+                              </div>
+                            </div>
+                          </Transition>
+                        </div>
+                      </div>
+
+                      <!-- Lot Lighting Quality Condition -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Quality Condition</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-quality-condition"
+                              value="good"
+                              class="sr-only peer"
+                              v-model="lotLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-quality-condition"
+                              value="fair"
+                              class="sr-only peer"
+                              v-model="lotLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-quality-condition"
+                              value="poor"
+                              class="sr-only peer"
+                              v-model="lotLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Lot Lighting Repair Status -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Repair Status</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- First Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="IR"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">IR</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="ST"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">ST</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="RR"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RR</span>
+                            </div>
+                          </label>
+
+                          <!-- Second Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="RM"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RM</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="INV"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">INV</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="lot-lighting-repair-status"
+                              value="NA"
+                              class="sr-only peer"
+                              v-model="lotLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">NA</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Lot Lighting Amount to Repair and Replace -->
+                      <div class="mb-3">
+                        <label class="form-label">Amount to Repair and Replace</label>
+                        <input
+                          type="text"
+                          class="form-input"
+                          placeholder="Value?"
+                          v-model="lotLightingAmount"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Building Lighting Accordion -->
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'building-lighting' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('building-lighting')">
+                      Building Lighting
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'building-lighting' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'building-lighting'">
+                      <!-- Building Lighting Type Dropdown -->
+                      <div class="mb-4">
+                        <div class="relative">
+                          <label class="form-label">Building Lighting Type</label>
+                          <button
+                            @click="toggleBuildingLightingDropdown"
+                            type="button"
+                            class="form-dropdown-button"
+                            :class="{ 'form-dropdown-button--active': showBuildingLightingDropdown }"
+                          >
+                            <span class="text-gray-700">{{ buildingLightingType || 'Select Type' }}</span>
+                            <svg
+                              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                              :class="{ 'rotate-180': showBuildingLightingDropdown }"
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+
+                          <!-- Dropdown Menu -->
+                          <Transition name="dropdown">
+                            <div
+                              v-if="showBuildingLightingDropdown"
+                              class="form-dropdown-menu"
+                            >
+                              <div class="py-1">
+                                <div
+                                  @click="selectBuildingLightingType('N/A')"
+                                  class="form-dropdown-item"
+                                >
+                                  N/A
+                                </div>
+                                <div
+                                  @click="selectBuildingLightingType('Surface')"
+                                  class="form-dropdown-item"
+                                >
+                                  Surface
+                                </div>
+                                <div
+                                  @click="selectBuildingLightingType('Recessed in Soffits')"
+                                  class="form-dropdown-item"
+                                >
+                                  Recessed in Soffits
+                                </div>
+                              </div>
+                            </div>
+                          </Transition>
+                        </div>
+                      </div>
+
+                      <!-- Building Lighting Quality Condition -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Quality Condition</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-quality-condition"
+                              value="good"
+                              class="sr-only peer"
+                              v-model="buildingLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-quality-condition"
+                              value="fair"
+                              class="sr-only peer"
+                              v-model="buildingLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-quality-condition"
+                              value="poor"
+                              class="sr-only peer"
+                              v-model="buildingLightingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Building Lighting Repair Status -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Repair Status</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- First Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="IR"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">IR</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="ST"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">ST</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="RR"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RR</span>
+                            </div>
+                          </label>
+
+                          <!-- Second Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="RM"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RM</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="INV"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">INV</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="building-lighting-repair-status"
+                              value="NA"
+                              class="sr-only peer"
+                              v-model="buildingLightingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">NA</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Building Lighting Amount to Repair and Replace -->
+                      <div class="mb-3">
+                        <label class="form-label">Amount to Repair and Replace</label>
+                        <input
+                          type="text"
+                          class="form-input"
+                          placeholder="Value?"
+                          v-model="buildingLightingAmount"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Site Fencing Accordion -->
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'site-fencing' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('site-fencing')">
+                      Site Fencing
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'site-fencing' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'site-fencing'">
+                      <!-- Site Fencing Type Dropdown -->
+                      <div class="mb-4">
+                        <div class="relative">
+                          <label class="form-label">Site Fencing Type</label>
+                          <button
+                            @click="toggleSiteFencingDropdown"
+                            type="button"
+                            class="form-dropdown-button"
+                            :class="{ 'form-dropdown-button--active': showSiteFencingDropdown }"
+                          >
+                            <span class="text-gray-700">{{ siteFencingType || 'Select Type' }}</span>
+                            <svg
+                              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                              :class="{ 'rotate-180': showSiteFencingDropdown }"
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+
+                          <!-- Dropdown Menu -->
+                          <Transition name="dropdown">
+                            <div
+                              v-if="showSiteFencingDropdown"
+                              class="form-dropdown-menu"
+                            >
+                              <div class="py-1">
+                                <div
+                                  @click="selectSiteFencingType('N/A')"
+                                  class="form-dropdown-item"
+                                >
+                                  N/A
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('Chain Link')"
+                                  class="form-dropdown-item"
+                                >
+                                  Chain Link
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('Wood')"
+                                  class="form-dropdown-item"
+                                >
+                                  Wood
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('CMU')"
+                                  class="form-dropdown-item"
+                                >
+                                  CMU
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('Brick')"
+                                  class="form-dropdown-item"
+                                >
+                                  Brick
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('Vinyl')"
+                                  class="form-dropdown-item"
+                                >
+                                  Vinyl
+                                </div>
+                                <div
+                                  @click="selectSiteFencingType('Other')"
+                                  class="form-dropdown-item"
+                                >
+                                  Other
+                                </div>
+                              </div>
+                            </div>
+                          </Transition>
+                        </div>
+                      </div>
+
+                      <!-- Site Fencing Quality Condition -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Quality Condition</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-quality-condition"
+                              value="good"
+                              class="sr-only peer"
+                              v-model="siteFencingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-quality-condition"
+                              value="fair"
+                              class="sr-only peer"
+                              v-model="siteFencingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-quality-condition"
+                              value="poor"
+                              class="sr-only peer"
+                              v-model="siteFencingQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Site Fencing Repair Status -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Repair Status</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- First Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="IR"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">IR</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="ST"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">ST</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="RR"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RR</span>
+                            </div>
+                          </label>
+
+                          <!-- Second Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="RM"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RM</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="INV"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">INV</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="site-fencing-repair-status"
+                              value="NA"
+                              class="sr-only peer"
+                              v-model="siteFencingRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">NA</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Site Fencing Amount to Repair and Replace -->
+                      <div class="mb-3">
+                        <label class="form-label">Amount to Repair and Replace</label>
+                        <input
+                          type="text"
+                          class="form-input"
+                          placeholder="Value?"
+                          v-model="siteFencingAmount"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Security Gates Accordion -->
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'security-gates' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('security-gates')">
+                      Security Gates
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'security-gates' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'security-gates'">
+                      <!-- Security Gates Type Dropdown -->
+                      <div class="mb-4">
+                        <div class="relative">
+                          <label class="form-label">Security Gates Type</label>
+                          <button
+                            @click="toggleSecurityGatesDropdown"
+                            type="button"
+                            class="form-dropdown-button"
+                            :class="{ 'form-dropdown-button--active': showSecurityGatesDropdown }"
+                          >
+                            <span class="text-gray-700">{{ securityGatesType || 'Select Type' }}</span>
+                            <svg
+                              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                              :class="{ 'rotate-180': showSecurityGatesDropdown }"
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+
+                          <!-- Dropdown Menu -->
+                          <Transition name="dropdown">
+                            <div
+                              v-if="showSecurityGatesDropdown"
+                              class="form-dropdown-menu"
+                            >
+                              <div class="py-1">
+                                <div
+                                  @click="selectSecurityGatesType('N/A')"
+                                  class="form-dropdown-item"
+                                >
+                                  N/A
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Chain Link')"
+                                  class="form-dropdown-item"
+                                >
+                                  Chain Link
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Metal')"
+                                  class="form-dropdown-item"
+                                >
+                                  Metal
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Vinyl')"
+                                  class="form-dropdown-item"
+                                >
+                                  Vinyl
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Overhead')"
+                                  class="form-dropdown-item"
+                                >
+                                  Overhead
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Sliding')"
+                                  class="form-dropdown-item"
+                                >
+                                  Sliding
+                                </div>
+                                <div
+                                  @click="selectSecurityGatesType('Swing')"
+                                  class="form-dropdown-item"
+                                >
+                                  Swing
+                                </div>
+                              </div>
+                            </div>
+                          </Transition>
+                        </div>
+                      </div>
+
+                      <!-- Security Gates Quality Condition -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Quality Condition</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- Good Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-quality-condition"
+                              value="good"
+                              class="sr-only peer"
+                              v-model="securityGatesQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">✅</div>
+                              <span class="text-sm font-medium">Good</span>
+                            </div>
+                          </label>
+
+                          <!-- Fair Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-quality-condition"
+                              value="fair"
+                              class="sr-only peer"
+                              v-model="securityGatesQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">⚠️</div>
+                              <span class="text-sm font-medium">Fair</span>
+                            </div>
+                          </label>
+
+                          <!-- Poor Button -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-quality-condition"
+                              value="poor"
+                              class="sr-only peer"
+                              v-model="securityGatesQualityCondition"
+                            />
+                            <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                              <div class="text-2xl mb-1">❌</div>
+                              <span class="text-sm font-medium">Poor</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Security Gates Repair Status -->
+                      <div class="mb-3">
+                        <label class="form-label mb-3 block">Repair Status</label>
+                        <div class="grid grid-cols-3 gap-2 w-full">
+                          <!-- First Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="IR"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">IR</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="ST"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">ST</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="RR"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RR</span>
+                            </div>
+                          </label>
+
+                          <!-- Second Row -->
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="RM"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">RM</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="INV"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">INV</span>
+                            </div>
+                          </label>
+
+                          <label class="relative cursor-pointer">
+                            <input
+                              type="radio"
+                              name="security-gates-repair-status"
+                              value="NA"
+                              class="sr-only peer"
+                              v-model="securityGatesRepairStatus"
+                            />
+                            <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                              <span class="text-sm font-medium">NA</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Security Gates Amount to Repair and Replace -->
+                      <div class="mb-3">
+                        <label class="form-label">Amount to Repair and Replace</label>
+                        <input
+                          type="text"
+                          class="form-input"
+                          placeholder="Value?"
+                          v-model="securityGatesAmount"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Dumpster Accordion-->
+                  <div class="collapse bg-base-100 border border-base-300" :class="{ 'collapse-open': openAccordion === 'dumpster' }">
+                    <div class="collapse-title font-semibold cursor-pointer" @click="toggleAccordion('dumpster')">
+                      Dumpster
+                      <svg class="w-4 h-4 float-right mt-1 transition-transform duration-200" :class="{ 'rotate-180': openAccordion === 'dumpster' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                    <div class="collapse-content text-sm" v-show="openAccordion === 'dumpster'">
+                      <!-- N/A Radio Select -->
+                      <div class="mb-4">
+                        <label class="form-label mb-3 block">Dumpster Available</label>
+                        <div class="flex gap-4">
+                          <label class="flex items-center">
+                            <input
+                              type="radio"
+                              name="dumpster-available"
+                              value="yes"
+                              class="mr-2"
+                              v-model="dumpsterAvailable"
+                            />
+                            <span class="text-sm">Yes</span>
+                          </label>
+                          <label class="flex items-center">
+                            <input
+                              type="radio"
+                              name="dumpster-available"
+                              value="no"
+                              class="mr-2"
+                              v-model="dumpsterAvailable"
+                            />
+                            <span class="text-sm">N/A</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <!-- Dumpster Details (shown only if Yes is selected) -->
+                      <div v-if="dumpsterAvailable === 'yes'">
+                        <!-- Enclosure Dropdown -->
+                        <div class="mb-4">
+                          <div class="relative">
+                            <label class="form-label">Enclosure</label>
+                            <button
+                              @click="toggleDumpsterEnclosureDropdown"
+                              type="button"
+                              class="form-dropdown-button"
+                              :class="{ 'form-dropdown-button--active': showDumpsterEnclosureDropdown }"
+                            >
+                              <span class="text-gray-700">{{ dumpsterEnclosureType || 'Select Enclosure' }}</span>
+                              <svg
+                                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                                :class="{ 'rotate-180': showDumpsterEnclosureDropdown }"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                              >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                              </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <Transition name="dropdown">
+                              <div
+                                v-if="showDumpsterEnclosureDropdown"
+                                class="form-dropdown-menu"
+                              >
+                                <div class="py-1">
+                                  <div
+                                    @click="selectDumpsterEnclosureType('Chain link')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Chain link
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterEnclosureType('Wood')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Wood
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterEnclosureType('CMU')"
+                                    class="form-dropdown-item"
+                                  >
+                                    CMU
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterEnclosureType('Brick')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Brick
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterEnclosureType('Vinyl')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Vinyl
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterEnclosureType('Other')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Other
+                                  </div>
+                                </div>
+                              </div>
+                            </Transition>
+                          </div>
+                        </div>
+
+                        <!-- Other Text Field (shown only if Other is selected) -->
+                        <div v-if="dumpsterEnclosureType === 'Other'" class="mb-4">
+                          <label class="form-label">Specify Other Enclosure</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Please specify..."
+                            v-model="dumpsterEnclosureOther"
+                          />
+                        </div>
+
+                        <!-- Gates Dropdown -->
+                        <div class="mb-4">
+                          <div class="relative">
+                            <label class="form-label">Gates</label>
+                            <button
+                              @click="toggleDumpsterGatesDropdown"
+                              type="button"
+                              class="form-dropdown-button"
+                              :class="{ 'form-dropdown-button--active': showDumpsterGatesDropdown }"
+                            >
+                              <span class="text-gray-700">{{ dumpsterGatesType || 'Select Gates' }}</span>
+                              <svg
+                                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                                :class="{ 'rotate-180': showDumpsterGatesDropdown }"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                              >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                              </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <Transition name="dropdown">
+                              <div
+                                v-if="showDumpsterGatesDropdown"
+                                class="form-dropdown-menu"
+                              >
+                                <div class="py-1">
+                                  <div
+                                    @click="selectDumpsterGatesType('Chain link')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Chain link
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterGatesType('Wood')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Wood
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterGatesType('Metal (solid)')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Metal (solid)
+                                  </div>
+                                  <div
+                                    @click="selectDumpsterGatesType('Metal (tubular)')"
+                                    class="form-dropdown-item"
+                                  >
+                                    Metal (tubular)
+                                  </div>
+                                </div>
+                              </div>
+                            </Transition>
+                          </div>
+                        </div>
+
+                        <div class="mb-4">
+                          <label class="form-label">Location</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Please specify..."
+                            v-model="dumpsterLocation"
+                          />
+                        </div>
+
+                        <!-- Dumpster Quality Condition -->
+                        <div class="mb-3">
+                          <label class="form-label mb-3 block">Quality Condition</label>
+                          <div class="grid grid-cols-3 gap-2 w-full">
+                            <!-- Good Button -->
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-quality-condition"
+                                value="good"
+                                class="sr-only peer"
+                                v-model="dumpsterQualityCondition"
+                              />
+                              <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 peer-hover:border-green-300 peer-hover:bg-green-25 min-h-[80px]">
+                                <div class="text-2xl mb-1">✅</div>
+                                <span class="text-sm font-medium">Good</span>
+                              </div>
+                            </label>
+
+                            <!-- Fair Button -->
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-quality-condition"
+                                value="fair"
+                                class="sr-only peer"
+                                v-model="dumpsterQualityCondition"
+                              />
+                              <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 peer-hover:border-yellow-300 peer-hover:bg-yellow-25 min-h-[80px]">
+                                <div class="text-2xl mb-1">⚠️</div>
+                                <span class="text-sm font-medium">Fair</span>
+                              </div>
+                            </label>
+
+                            <!-- Poor Button -->
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-quality-condition"
+                                value="poor"
+                                class="sr-only peer"
+                                v-model="dumpsterQualityCondition"
+                              />
+                              <div class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 peer-hover:border-red-300 peer-hover:bg-red-25 min-h-[80px]">
+                                <div class="text-2xl mb-1">❌</div>
+                                <span class="text-sm font-medium">Poor</span>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+
+                        <!-- Dumpster Repair Status -->
+                        <div class="mb-3">
+                          <label class="form-label mb-3 block">Repair Status</label>
+                          <div class="grid grid-cols-3 gap-2 w-full">
+                            <!-- First Row -->
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="IR"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">IR</span>
+                              </div>
+                            </label>
+
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="ST"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">ST</span>
+                              </div>
+                            </label>
+
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="RR"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">RR</span>
+                              </div>
+                            </label>
+
+                            <!-- Second Row -->
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="RM"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">RM</span>
+                              </div>
+                            </label>
+
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="INV"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">INV</span>
+                              </div>
+                            </label>
+
+                            <label class="relative cursor-pointer">
+                              <input
+                                type="radio"
+                                name="dumpster-repair-status"
+                                value="NA"
+                                class="sr-only peer"
+                                v-model="dumpsterRepairStatus"
+                              />
+                              <div class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-white text-gray-600 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 peer-hover:border-blue-300 peer-hover:bg-blue-25 min-h-[60px]">
+                                <span class="text-sm font-medium">NA</span>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+
+                        <!-- Dumpster Amount to Repair and Replace -->
+                        <div class="mb-3">
+                          <label class="form-label">Amount to Repair and Replace</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Value?"
+                            v-model="dumpsterAmount"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3 mt-3">
+                    <label class="form-label">Comments</label>
+                    <textarea class="form-input" placeholder="Comments"></textarea>
+                  </div>
+
                 </div>
               </div>
             </Transition>
@@ -3129,9 +4384,47 @@ const pumpAge = ref('');
 const pumpQualityCondition = ref('');
 const pumpRepairStatus = ref('');
 const pumpAmount = ref('');
+// Lot Lighting data
+const lotLightingType = ref('');
+const showLotLightingDropdown = ref(false);
+const lotLightingQualityCondition = ref('');
+const lotLightingRepairStatus = ref('');
+const lotLightingAmount = ref('');
+// Building Lighting data
+const buildingLightingType = ref('');
+const showBuildingLightingDropdown = ref(false);
+const buildingLightingQualityCondition = ref('');
+const buildingLightingRepairStatus = ref('');
+const buildingLightingAmount = ref('');
+// Site Fencing data
+const siteFencingType = ref('');
+const showSiteFencingDropdown = ref(false);
+const siteFencingQualityCondition = ref('');
+const siteFencingRepairStatus = ref('');
+const siteFencingAmount = ref('');
+// Security Gates data
+const securityGatesType = ref('');
+const showSecurityGatesDropdown = ref(false);
+const securityGatesQualityCondition = ref('');
+const securityGatesRepairStatus = ref('');
+const securityGatesAmount = ref('');
+
+// Dumpster data
+const dumpsterAvailable = ref('');
+const dumpsterEnclosureType = ref('');
+const showDumpsterEnclosureDropdown = ref(false);
+const dumpsterEnclosureOther = ref('');
+const dumpsterGatesType = ref('');
+const showDumpsterGatesDropdown = ref(false);
+const dumpsterQualityCondition = ref('');
+const dumpsterRepairStatus = ref('');
+const dumpsterAmount = ref('');
 
 // Repair status data
 const repairStatus = ref('');
+
+// Accordion state management
+const openAccordion = ref<string | null>(null);
 
 // Computed properties
 const currentMonthYear = computed(() => {
@@ -3296,6 +4589,64 @@ const togglePumpLocationDropdown = () => {
 const selectPumpLocation = (pumpLocationValue: string) => {
   pumpLocation.value = pumpLocationValue;
   showPumpLocationDropdown.value = false;
+};
+
+// New dropdown functions
+const toggleLotLightingDropdown = () => {
+  showLotLightingDropdown.value = !showLotLightingDropdown.value;
+};
+const selectLotLightingType = (type: string) => {
+  lotLightingType.value = type;
+  showLotLightingDropdown.value = false;
+};
+
+const toggleBuildingLightingDropdown = () => {
+  showBuildingLightingDropdown.value = !showBuildingLightingDropdown.value;
+};
+const selectBuildingLightingType = (type: string) => {
+  buildingLightingType.value = type;
+  showBuildingLightingDropdown.value = false;
+};
+
+const toggleSiteFencingDropdown = () => {
+  showSiteFencingDropdown.value = !showSiteFencingDropdown.value;
+};
+const selectSiteFencingType = (type: string) => {
+  siteFencingType.value = type;
+  showSiteFencingDropdown.value = false;
+};
+
+const toggleSecurityGatesDropdown = () => {
+  showSecurityGatesDropdown.value = !showSecurityGatesDropdown.value;
+};
+const selectSecurityGatesType = (type: string) => {
+  securityGatesType.value = type;
+  showSecurityGatesDropdown.value = false;
+};
+
+// Dumpster functions
+const toggleDumpsterEnclosureDropdown = () => {
+  showDumpsterEnclosureDropdown.value = !showDumpsterEnclosureDropdown.value;
+};
+const selectDumpsterEnclosureType = (type: string) => {
+  dumpsterEnclosureType.value = type;
+  showDumpsterEnclosureDropdown.value = false;
+};
+const toggleDumpsterGatesDropdown = () => {
+  showDumpsterGatesDropdown.value = !showDumpsterGatesDropdown.value;
+};
+const selectDumpsterGatesType = (type: string) => {
+  dumpsterGatesType.value = type;
+  showDumpsterGatesDropdown.value = false;
+};
+
+// Accordion toggle function
+const toggleAccordion = (accordionId: string) => {
+  if (openAccordion.value === accordionId) {
+    openAccordion.value = null; // Close if already open
+  } else {
+    openAccordion.value = accordionId; // Open this one, close others
+  }
 };
 
 
