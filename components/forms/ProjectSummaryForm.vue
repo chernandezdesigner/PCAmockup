@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-4 pb-4">
     <!-- Step 1: Project Summary -->
-    <div v-if="currentStep === 1">
+<div v-if="currentStep === 1">
       <div class="mb-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Project Summary</h2>
         <p class="text-base text-gray-600">Enter basic project information and location details</p>
@@ -311,6 +311,8 @@
           class="form-input min-h-[100px] resize-none" 
           placeholder="Recent Capital Improvements"
         ></textarea>
+        
+
       </div>
     </div>
 
