@@ -366,11 +366,10 @@ const forms = ref([
     completed: false,
     progress: 0,
     subsections: [
-      { id: 'project-info', title: 'Placeholder Subsection 1', completed: false },
-      { id: 'location-details', title: 'Placeholder Subsection 2', completed: false },
-      { id: 'property-details', title: 'Placeholder Subsection 3', completed: false },
-      { id: 'contact-info', title: 'Placeholder Subsection 4', completed: false },
-      { id: 'assessment-scope', title: 'Placeholder Subsection 5', completed: false }
+      { id: 'basic-information', title: 'Basic Information', completed: false },
+      { id: 'property-details', title: 'Property Details', completed: false },
+      { id: 'documentation-personnel', title: 'Documentation & Personnel', completed: false },
+      { id: 'red-flags-utilities', title: 'Red Flags & Utilities', completed: false }
     ]
   },
   {
@@ -381,11 +380,10 @@ const forms = ref([
     completed: false,
     progress: 0,
     subsections: [
-      { id: 'drainage-systems', title: 'Drainage system & erosion control', completed: false },
-      { id: 'site-topography', title: 'Topography & Landscaping', completed: false },
-      { id: 'landscaping', title: 'General Site Improvements', completed: false },
-      { id: 'paving-walkways', title: 'Other Structures', completed: false },
-      { id: 'site-utilities', title: 'Placeholder Subsection 5', completed: false }
+      { id: 'drainage-erosion-control', title: 'Drainage system & erosion control', completed: false },
+      { id: 'topography-landscaping', title: 'Topography & Landscaping', completed: false },
+      { id: 'general-site-improvements', title: 'General Site Improvements', completed: false },
+      { id: 'other-structures', title: 'Other Structures', completed: false }
     ]
   },
   {
@@ -396,16 +394,16 @@ const forms = ref([
     completed: false,
     progress: 0,
     subsections: [
-      { id: 'exterior-walls', title: 'Foundations/Substructures', completed: false },
-      { id: 'roofing-system', title: 'Superstructure', completed: false },
-      { id: 'windows-doors', title: 'Roofing', completed: false },
-      { id: 'structural-elements', title: 'Exterior Walls', completed: false },
-      { id: 'insulation-weatherization', title: 'Parking, Paving, & Sidewalks', completed: false }
-      { id: 'insulation-weatherization', title: 'Parking garage structure type', completed: false }
-      { id: 'insulation-weatherization', title: 'Building stairs, balconies, & patios', completed: false }
-      { id: 'insulation-weatherization', title: 'Windows', completed: false }
-      { id: 'insulation-weatherization', title: 'Doors', completed: false }
-      { id: 'insulation-weatherization', title: 'Swimming pools and spas', completed: false }
+      { id: 'foundations-substructures', title: 'Foundations/Substructures', completed: false },
+      { id: 'superstructure', title: 'Superstructure', completed: false },
+      { id: 'roofing', title: 'Roofing', completed: false },
+      { id: 'exterior-walls', title: 'Exterior Walls', completed: false },
+      { id: 'parking-paving-sidewalks', title: 'Parking, Paving, & Sidewalks', completed: false },
+      { id: 'parking-garage-structure', title: 'Parking garage structure type', completed: false },
+      { id: 'stairs-balconies-patios', title: 'Building stairs, balconies, & patios', completed: false },
+      { id: 'windows', title: 'Windows', completed: false },
+      { id: 'doors', title: 'Doors', completed: false },
+      { id: 'swimming-pools-spas', title: 'Swimming pools and spas', completed: false }
     ]
   },
   {
@@ -416,17 +414,17 @@ const forms = ref([
     completed: false,
     progress: 0,
     subsections: [
-      { id: 'hvac-systems', title: 'Hvac Individual Units', completed: false },
-      { id: 'plumbing-systems', title: 'Misc Units', completed: false },
-      { id: 'electrical-systems', title: 'Chillers & Cooling Towers', completed: false },
-      { id: 'fire-safety', title: 'Boiler Heat', completed: false },
-      { id: 'elevator-systems', title: 'Plumbing Systems', completed: false }
-      { id: 'elevator-systems', title: 'Water Heater - Common area', completed: false }
-      { id: 'elevator-systems', title: 'Water Heater - Tenant spaces', completed: false }
-      { id: 'elevator-systems', title: 'Boilers - Plumbing water', completed: false }
-      { id: 'elevator-systems', title: 'Electric', completed: false }
-      { id: 'elevator-systems', title: 'Elevators and Conveying Systems', completed: false }
-      { id: 'elevator-systems', title: 'Fire Protection', completed: false }
+      { id: 'hvac-individual-units', title: 'Hvac Individual Units', completed: false },
+      { id: 'misc-units', title: 'Misc Units', completed: false },
+      { id: 'chillers-cooling-towers', title: 'Chillers & Cooling Towers', completed: false },
+      { id: 'boiler-heat', title: 'Boiler Heat', completed: false },
+      { id: 'plumbing-systems', title: 'Plumbing Systems', completed: false },
+      { id: 'water-heater-common', title: 'Water Heater - Common area', completed: false },
+      { id: 'water-heater-tenant', title: 'Water Heater - Tenant spaces', completed: false },
+      { id: 'boilers-plumbing-water', title: 'Boilers - Plumbing water', completed: false },
+      { id: 'electric', title: 'Electric', completed: false },
+      { id: 'elevators-conveying', title: 'Elevators and Conveying Systems', completed: false },
+      { id: 'fire-protection', title: 'Fire Protection', completed: false }
     ]
   },
   {
@@ -437,11 +435,11 @@ const forms = ref([
     completed: false,
     progress: 0,
     subsections: [
-      { id: 'flooring-finishes', title: 'Commercial Tenant unit finishes', completed: false },
-      { id: 'wall-ceiling-finishes', title: 'Common Area finishes', completed: false },
-      { id: 'interior-fixtures', title: 'Furniture, Fixtures, and Equipment', completed: false },
-      { id: 'accessibility-features', title: 'Mold', completed: false },
-      { id: 'interior-environmental', title: 'Alternative Property Specific Data', completed: false }
+      { id: 'commercial-tenant-finishes', title: 'Commercial Tenant unit finishes', completed: false },
+      { id: 'common-area-finishes', title: 'Common Area finishes', completed: false },
+      { id: 'furniture-fixtures-equipment', title: 'Furniture, Fixtures, and Equipment', completed: false },
+      { id: 'mold', title: 'Mold', completed: false },
+      { id: 'alternative-property-data', title: 'Alternative Property Specific Data', completed: false }
     ]
   }
 ])
