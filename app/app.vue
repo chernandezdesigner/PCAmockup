@@ -111,118 +111,158 @@
               @click="closeSidebar"
             ></div>
 
-            <!-- Sidebar Content - Respecting floating dock -->
-            <div class="absolute left-0 w-80 bg-white shadow-xl transform transition-transform sidebar-content" style="top: 2rem; bottom: 0; border-top-left-radius: 0; border-top-right-radius: 1rem;">
+            <!-- Sidebar Content - Modern Mobile Design -->
+            <div class="absolute left-0 w-80 bg-white transform transition-transform sidebar-content" style="top: 1.5rem; bottom: 0; border-radius: 0 1.5rem 0 0; box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.2);">
+              <!-- Drag Handle -->
+              <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-gray-300 rounded-full"></div>
+
               <!-- Header -->
-              <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-semibold text-gray-900">Assessment Sections</h2>
-                          <button
+              <div class="flex items-center justify-between px-6 pt-6 pb-4">
+                <div>
+                  <h2 class="text-xl font-bold text-gray-900 mb-1">Assessment</h2>
+                  <p class="text-sm text-gray-500">Select section to continue</p>
+                </div>
+                <button
                   @click="closeSidebar"
-                            type="button"
-                  class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  type="button"
+                  class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center active:bg-gray-200 transition-colors"
                   aria-label="Close navigation menu"
                 >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </button>
-                      </div>
+                  <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
 
-              <!-- Progress Overview -->
-              <div class="p-4 border-b border-gray-100 bg-blue-50">
-                <div class="flex items-center justify-between text-sm">
-                  <span class="font-medium text-gray-700">Assessment Progress</span>
-                  <span class="font-semibold text-blue-600">{{ completedFormsCount }}/{{ forms.length }}</span>
+              <!-- Progress Card -->
+              <div class="mx-6 mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-sm font-semibold text-gray-800">Progress</span>
+                  <span class="text-lg font-bold text-blue-600">{{ completedFormsCount }}/{{ forms.length }}</span>
                 </div>
-                <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                <div class="w-full bg-white bg-opacity-70 rounded-full h-2.5 shadow-inner">
                   <div
-                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2.5 rounded-full transition-all duration-500 ease-out shadow-sm"
                     :style="{ width: `${overallProgress}%` }"
                   ></div>
+                </div>
+                <div class="text-xs text-gray-600 mt-2 text-center">
+                  {{ overallProgress }}% Complete
                 </div>
               </div>
 
               <!-- Navigation Items -->
-              <nav class="flex-1 overflow-y-auto" style="height: calc(100% - 160px);">
-                <div class="p-4 space-y-2">
+              <nav class="flex-1 overflow-y-auto px-6 pb-6" style="height: calc(100% - 200px);">
+                <div class="space-y-3">
                   <div
                     v-for="(form, index) in forms"
                     :key="form.id"
                     class="navigation-section"
                   >
-                    <!-- Section Header (Expandable) -->
-                    <div class="border-2 rounded-xl transition-all duration-200 overflow-hidden" :class="{
-                      'bg-blue-50 border-blue-200': currentForm === form.id,
-                      'bg-green-50 border-green-200': form.completed,
-                      'bg-white border-gray-200 hover:border-gray-300': !form.completed && currentForm !== form.id
+                    <!-- Section Card -->
+                    <div class="rounded-2xl overflow-hidden shadow-sm border transition-all duration-300 active:scale-[0.98]" :class="{
+                      'bg-blue-50 border-blue-200 shadow-blue-100': currentForm === form.id,
+                      'bg-green-50 border-green-200 shadow-green-100': form.completed,
+                      'bg-white border-gray-200': !form.completed && currentForm !== form.id
                     }">
                       <button
                         @click="toggleSection(form.id)"
                         type="button"
-                        class="w-full text-left p-4 transition-all duration-200"
+                        class="w-full text-left p-5 transition-all duration-200"
                       >
-                        <div class="flex items-center space-x-4">
+                        <div class="flex items-start space-x-4">
                           <!-- Status Icon -->
-                          <div class="flex-shrink-0">
+                          <div class="flex-shrink-0 pt-0.5">
                             <div
                               v-if="form.completed"
-                              class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-sm"
+                              class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg"
                             >
-                              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
                             <div
                               v-else-if="currentForm === form.id"
-                              class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-sm"
+                              class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg relative"
                             >
-                              <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                              <div class="w-4 h-4 bg-white rounded-full animate-pulse"></div>
+                              <div class="absolute inset-0 rounded-2xl border-2 border-blue-300 animate-ping"></div>
                             </div>
                             <div
                               v-else
-                              class="w-8 h-8 border-2 border-blue-300 rounded-full bg-blue-50 flex items-center justify-center"
+                              class="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center border-2 border-gray-300"
                             >
-                              <span class="text-sm font-semibold text-blue-600">{{ index + 1 }}</span>
+                              <span class="text-sm font-bold text-gray-600">{{ index + 1 }}</span>
                             </div>
                           </div>
 
                           <!-- Form Info -->
                           <div class="flex-1 min-w-0">
-                            <div class="flex items-center space-x-2">
-                              <h3 class="font-semibold text-base leading-tight" :class="{
-                                'text-blue-900': currentForm === form.id,
-                                'text-green-900': form.completed,
+                            <div class="flex items-center justify-between mb-1">
+                              <h3 class="font-bold text-lg leading-tight" :class="{
+                                'text-blue-800': currentForm === form.id,
+                                'text-green-800': form.completed,
                                 'text-gray-900': !form.completed && currentForm !== form.id
                               }">{{ form.title }}</h3>
+
                               <!-- Expand/Collapse Icon -->
-                              <svg
-                                class="w-4 h-4 transition-transform duration-200"
-                                :class="{
-                                  'rotate-180': expandedSections.includes(form.id),
-                                  'text-blue-600': currentForm === form.id,
-                                  'text-green-600': form.completed,
-                                  'text-gray-400': !form.completed && currentForm !== form.id
-                                }"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                              </svg>
+                              <div class="flex-shrink-0 ml-2">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center" :class="{
+                                  'bg-blue-100': currentForm === form.id,
+                                  'bg-green-100': form.completed,
+                                  'bg-gray-100': !form.completed && currentForm !== form.id
+                                }">
+                                  <svg
+                                    class="w-5 h-5 transition-transform duration-300"
+                                    :class="{
+                                      'rotate-180': expandedSections.includes(form.id),
+                                      'text-blue-600': currentForm === form.id,
+                                      'text-green-600': form.completed,
+                                      'text-gray-500': !form.completed && currentForm !== form.id
+                                    }"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
-                            <p class="text-sm opacity-75 mt-1 leading-tight" :class="{
-                              'text-blue-800': currentForm === form.id,
-                              'text-green-800': form.completed,
-                              'text-gray-700': !form.completed && currentForm !== form.id
+
+                            <p class="text-sm leading-tight mb-3" :class="{
+                              'text-blue-700': currentForm === form.id,
+                              'text-green-700': form.completed,
+                              'text-gray-600': !form.completed && currentForm !== form.id
                             }">{{ form.description }}</p>
+
+                            <!-- Status Badge -->
+                            <div class="inline-flex items-center">
+                              <div
+                                class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold"
+                                :class="{
+                                  'bg-blue-100 text-blue-700': currentForm === form.id,
+                                  'bg-green-100 text-green-700': form.completed,
+                                  'bg-gray-100 text-gray-600': !form.completed && currentForm !== form.id
+                                }"
+                              >
+                                <span v-if="form.completed">✓ Complete</span>
+                                <span v-else-if="currentForm === form.id" class="flex items-center">
+                                  <div class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+                                  Active
+                                </span>
+                                <span v-else>Available</span>
+                              </div>
+                            </div>
+
                             <!-- Progress indicator -->
-                            <div v-if="form.progress > 0" class="mt-2">
-                              <div class="w-full bg-gray-200 rounded-full h-1.5">
+                            <div v-if="form.progress > 0" class="mt-3">
+                              <div class="w-full bg-gray-200 rounded-full h-2 shadow-inner">
                                 <div
-                                  class="h-1.5 rounded-full transition-all duration-300"
+                                  class="h-2 rounded-full transition-all duration-500"
                                   :class="{
-                                    'bg-green-500': form.completed,
-                                    'bg-blue-500': currentForm === form.id,
+                                    'bg-gradient-to-r from-green-400 to-green-500': form.completed,
+                                    'bg-gradient-to-r from-blue-400 to-blue-500': currentForm === form.id,
                                     'bg-gray-400': currentForm !== form.id && !form.completed
                                   }"
                                   :style="{ width: `${form.progress}%` }"
@@ -230,78 +270,61 @@
                               </div>
                             </div>
                           </div>
-
-                          <!-- Status Badge -->
-                          <div class="flex-shrink-0">
-                            <div
-                              v-if="form.completed"
-                              class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full"
-                            >
-                              Complete
-                            </div>
-                            <div
-                              v-else-if="currentForm === form.id"
-                              class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
-                            >
-                              Active
-                            </div>
-                            <div
-                              v-else
-                              class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full"
-                            >
-                              Available
-                            </div>
-                          </div>
                         </div>
                       </button>
 
                       <!-- Expandable Subsections -->
                       <Transition name="expand">
-                        <div v-if="expandedSections.includes(form.id)" class="border-t border-gray-200 bg-gray-50">
-                          <div class="p-2">
+                        <div v-if="expandedSections.includes(form.id)" class="border-t bg-gray-50 bg-opacity-50" :class="{
+                          'border-blue-200': currentForm === form.id,
+                          'border-green-200': form.completed,
+                          'border-gray-200': !form.completed && currentForm !== form.id
+                        }">
+                          <div class="p-4 space-y-2">
                             <div
                               v-for="(subsection, subIndex) in form.subsections"
                               :key="subsection.id"
-                              class="mb-1 last:mb-0"
                             >
                               <button
                                 @click="navigateToSubsection(form.id, subsection.id)"
                                 type="button"
-                                class="w-full text-left p-3 rounded-lg transition-all duration-200 hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-200"
+                                class="w-full text-left p-4 rounded-xl transition-all duration-200 active:scale-[0.98] min-h-[60px]"
                                 :class="{
-                                  'bg-blue-100 border-blue-200 shadow-sm': currentForm === form.id,
-                                  'bg-white border-gray-200 shadow-sm': subsection.completed
+                                  'bg-blue-100 shadow-sm': currentForm === form.id,
+                                  'bg-white shadow-sm': subsection.completed || (!subsection.completed && currentForm !== form.id)
                                 }"
                               >
-                                <div class="flex items-center space-x-3">
+                                <div class="flex items-center space-x-4">
                                   <!-- Subsection Status Icon -->
                                   <div class="flex-shrink-0">
                                     <div
                                       v-if="subsection.completed"
-                                      class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
+                                      class="w-7 h-7 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-md"
                                     >
-                                      <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                       </svg>
                                     </div>
                                     <div
                                       v-else
-                                      class="w-5 h-5 border-2 border-gray-300 rounded-full bg-white flex items-center justify-center"
+                                      class="w-7 h-7 bg-white border-2 border-gray-300 rounded-xl flex items-center justify-center shadow-sm"
                                     >
-                                      <span class="text-xs font-medium text-gray-500">{{ subIndex + 1 }}</span>
+                                      <span class="text-xs font-bold text-gray-600">{{ subIndex + 1 }}</span>
                                     </div>
                                   </div>
 
                                   <!-- Subsection Info -->
                                   <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ subsection.title }}</p>
+                                    <p class="text-sm font-semibold text-gray-900 leading-tight">{{ subsection.title }}</p>
                                   </div>
 
                                   <!-- Navigation Arrow -->
                                   <div class="flex-shrink-0">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
+                                      <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                                      </svg>
+                                    </div>
                                   </div>
                                 </div>
                               </button>
@@ -843,10 +866,13 @@ const handleSubmit = () => {
   opacity: 0;
 }
 
-/* Sidebar transitions */
-.sidebar-enter-active,
+/* Modern Mobile Sidebar Transitions */
+.sidebar-enter-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .sidebar-leave-active {
-  transition: opacity 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .sidebar-enter-from,
@@ -854,13 +880,13 @@ const handleSubmit = () => {
   opacity: 0;
 }
 
-.sidebar-enter-active .absolute.inset-y-0,
-.sidebar-leave-active .absolute.inset-y-0 {
-  transition: transform 0.3s ease;
+.sidebar-enter-active .sidebar-content,
+.sidebar-leave-active .sidebar-content {
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.sidebar-enter-from .absolute.inset-y-0,
-.sidebar-leave-to .absolute.inset-y-0 {
+.sidebar-enter-from .sidebar-content,
+.sidebar-leave-to .sidebar-content {
   transform: translateX(-100%);
 }
 
@@ -1308,10 +1334,14 @@ const handleSubmit = () => {
   font-style: italic;
 }
 
-/* Expand/Collapse Transitions for Navigation Sections */
-.expand-enter-active,
+/* Modern Mobile Transitions */
+.expand-enter-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
 .expand-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
 }
 
@@ -1319,11 +1349,36 @@ const handleSubmit = () => {
 .expand-leave-to {
   max-height: 0;
   opacity: 0;
+  transform: translateY(-10px);
 }
 
 .expand-enter-to,
 .expand-leave-from {
-  max-height: 400px;
+  max-height: 600px;
   opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile Touch Feedback */
+.mobile-touch-feedback {
+  transition: transform 0.1s ease;
+}
+
+.mobile-touch-feedback:active {
+  transform: scale(0.98);
+}
+
+/* Pulse Animation for Active States */
+@keyframes mobile-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.mobile-pulse {
+  animation: mobile-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>
