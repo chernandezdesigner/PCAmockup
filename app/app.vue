@@ -249,9 +249,9 @@
                                 <span v-if="form.completed">✓ Complete</span>
                                 <span v-else-if="currentForm === form.id" class="flex items-center">
                                   <div class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                                  Active
+                                  In Progress
                                 </span>
-                                <span v-else>Available</span>
+                                <span v-else>Not Started</span>
                               </div>
                             </div>
 
