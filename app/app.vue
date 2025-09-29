@@ -357,11 +357,14 @@
       </Transition>
             </div>
     </PhoneMockup>
+
+    <!-- Toast Container -->
+    <ToastContainer />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, nextTick } from 'vue'
 import PhoneMockup from '../components/PhoneMockup.vue'
 import HeaderBar from '../components/HeaderBar.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
@@ -371,6 +374,8 @@ import BuildingEnvelopeForm from '../components/forms/BuildingEnvelopeForm.vue'
 import MechanicalSystemsForm from '../components/forms/MechanicalSystemsForm.vue'
 import InteriorConditionsForm from '../components/forms/InteriorConditionsForm.vue'
 import NavigationSidebar from '../components/navigation/NavigationSidebar.vue'
+import ToastContainer from '../components/ui/ToastContainer.vue'
+import { useToast } from '../composables/useToast'
 
 // Form management
 const currentForm = ref('project-summary')
@@ -394,6 +399,9 @@ const formData = reactive({
 
 // Sidebar state
 const expandedSections = ref<string[]>(['project-summary'])
+
+// Toast functionality
+const { showToast } = useToast()
 
 // Form configuration
 const forms = ref([
@@ -593,11 +601,49 @@ const toggleSection = (sectionId: string) => {
 }
 
 const navigateToSubsection = (formId: string, subsectionId: string) => {
-  // Navigate to specific form and subsection
-  currentForm.value = formId
-  console.log(`Navigating to ${formId} - ${subsectionId}`)
-  closeSidebar()
-  // TODO: Add logic to navigate to specific subsection within the form
+  // Check if this is a built form (Project Summary or Site Grounds)
+  if (formId === 'project-summary' || formId === 'site-grounds') {
+    // Navigate to form
+    currentForm.value = formId
+
+    // Wait for next tick to ensure form is mounted
+    nextTick(() => {
+      const formRef = getCurrentFormRef()
+      if (formRef) {
+        // Map subsection to step number
+        const stepNumber = getStepFromSubsection(formId, subsectionId)
+        if (stepNumber) {
+          // Navigate directly to the specific step
+          (formRef as any).currentStep = stepNumber
+        }
+      }
+    })
+
+    closeSidebar()
+  } else {
+    // Show toast for unbuilt sections
+    showToast('This section is not built for this prototype', 'info', 3000)
+  }
+}
+
+// Helper function to map subsections to step numbers
+const getStepFromSubsection = (formId: string, subsectionId: string): number | null => {
+  const stepMappings = {
+    'project-summary': {
+      'basic-information': 1,
+      'property-details': 2,
+      'documentation-personnel': 3,
+      'red-flags-utilities': 4
+    },
+    'site-grounds': {
+      'drainage-erosion-control': 1,
+      'topography-landscaping': 2,
+      'general-site-improvements': 3,
+      'other-structures': 4
+    }
+  }
+
+  return stepMappings[formId]?.[subsectionId] || null
 }
 
 const openSidebar = () => {
