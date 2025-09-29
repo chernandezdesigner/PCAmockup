@@ -331,7 +331,7 @@
 
                                   <!-- Subsection Info -->
                                   <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-semibold text-gray-900 leading-tight">{{ subsection.title }}</p>
+                                    <p class="text-sm font-semibold text-gray-900 leading-tight break-words">{{ subsection.title }}</p>
                                   </div>
 
                                   <!-- Navigation Arrow -->
