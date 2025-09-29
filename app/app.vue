@@ -106,15 +106,15 @@
         <Transition name="sidebar">
           <div v-if="sidebarOpen" class="absolute inset-0 z-50">
             <!-- Backdrop -->
-            <div 
+            <div
               class="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
               @click="closeSidebar"
             ></div>
-            
-            <!-- Sidebar Content -->
-            <div class="absolute inset-y-0 left-0 w-80 bg-white shadow-xl transform transition-transform sidebar-content">
+
+            <!-- Sidebar Content - Respecting floating dock -->
+            <div class="absolute left-0 w-80 bg-white shadow-xl transform transition-transform sidebar-content" style="top: 2rem; bottom: 0; border-top-left-radius: 0; border-top-right-radius: 1rem;">
               <!-- Header -->
-              <div class="flex items-center justify-between p-4 border-b border-gray-200">
+              <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
                 <h2 class="text-lg font-semibold text-gray-900">Assessment Sections</h2>
                           <button
                   @click="closeSidebar"
@@ -128,76 +128,189 @@
                           </button>
                       </div>
 
-              <!-- Navigation Items -->
-              <nav class="p-4 overflow-y-auto" style="height: calc(100% - 80px);">
-                <div class="space-y-3">
+              <!-- Progress Overview -->
+              <div class="p-4 border-b border-gray-100 bg-blue-50">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="font-medium text-gray-700">Assessment Progress</span>
+                  <span class="font-semibold text-blue-600">{{ completedFormsCount }}/{{ forms.length }}</span>
+                </div>
+                <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
                   <div
-                    v-for="form in forms"
+                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    :style="{ width: `${overallProgress}%` }"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Navigation Items -->
+              <nav class="flex-1 overflow-y-auto" style="height: calc(100% - 160px);">
+                <div class="p-4 space-y-2">
+                  <div
+                    v-for="(form, index) in forms"
                     :key="form.id"
-                    class="navigation-item"
+                    class="navigation-section"
                   >
-                          <button
-                      @click="selectForm(form.id)"
-                            type="button"
-                      class="w-full text-left p-4 rounded-lg transition-all duration-200 border"
-                      :disabled="!form.enabled"
-                      :class="{
-                        'bg-blue-50 border-blue-200 text-blue-900': currentForm === form.id,
-                        'bg-green-50 border-green-200 text-green-900': form.completed && currentForm !== form.id,
-                        'bg-white border-gray-200 text-gray-900 hover:bg-gray-50': form.enabled && currentForm !== form.id && !form.completed,
-                        'bg-gray-50 border-gray-100 text-gray-400 cursor-not-allowed': !form.enabled
-                      }"
-                    >
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
+                    <!-- Section Header (Expandable) -->
+                    <div class="border-2 rounded-xl transition-all duration-200 overflow-hidden" :class="{
+                      'bg-blue-50 border-blue-200': currentForm === form.id,
+                      'bg-green-50 border-green-200': form.completed,
+                      'bg-white border-gray-200 hover:border-gray-300': !form.completed && currentForm !== form.id
+                    }">
+                      <button
+                        @click="toggleSection(form.id)"
+                        type="button"
+                        class="w-full text-left p-4 transition-all duration-200"
+                      >
+                        <div class="flex items-center space-x-4">
                           <!-- Status Icon -->
                           <div class="flex-shrink-0">
                             <div
                               v-if="form.completed"
-                              class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center"
+                              class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-sm"
                             >
-                              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
+                              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
                             <div
                               v-else-if="currentForm === form.id"
-                              class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center"
+                              class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-sm"
                             >
-                              <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                  </div>
-                                  <div
-                              v-else-if="form.enabled"
-                              class="w-6 h-6 border-2 border-gray-300 rounded-full"
-                            ></div>
+                              <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                            </div>
                             <div
                               v-else
-                              class="w-6 h-6 border-2 border-gray-200 rounded-full bg-gray-100"
-                            ></div>
-                        </div>
+                              class="w-8 h-8 border-2 border-blue-300 rounded-full bg-blue-50 flex items-center justify-center"
+                            >
+                              <span class="text-sm font-semibold text-blue-600">{{ index + 1 }}</span>
+                            </div>
+                          </div>
 
                           <!-- Form Info -->
-                          <div class="flex-1">
-                            <h3 class="font-medium text-sm">{{ form.title }}</h3>
-                            <p class="text-xs opacity-75 mt-1">{{ form.description }}</p>
+                          <div class="flex-1 min-w-0">
+                            <div class="flex items-center space-x-2">
+                              <h3 class="font-semibold text-base leading-tight" :class="{
+                                'text-blue-900': currentForm === form.id,
+                                'text-green-900': form.completed,
+                                'text-gray-900': !form.completed && currentForm !== form.id
+                              }">{{ form.title }}</h3>
+                              <!-- Expand/Collapse Icon -->
+                              <svg
+                                class="w-4 h-4 transition-transform duration-200"
+                                :class="{
+                                  'rotate-180': expandedSections.includes(form.id),
+                                  'text-blue-600': currentForm === form.id,
+                                  'text-green-600': form.completed,
+                                  'text-gray-400': !form.completed && currentForm !== form.id
+                                }"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </div>
+                            <p class="text-sm opacity-75 mt-1 leading-tight" :class="{
+                              'text-blue-800': currentForm === form.id,
+                              'text-green-800': form.completed,
+                              'text-gray-700': !form.completed && currentForm !== form.id
+                            }">{{ form.description }}</p>
+                            <!-- Progress indicator -->
+                            <div v-if="form.progress > 0" class="mt-2">
+                              <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div
+                                  class="h-1.5 rounded-full transition-all duration-300"
+                                  :class="{
+                                    'bg-green-500': form.completed,
+                                    'bg-blue-500': currentForm === form.id,
+                                    'bg-gray-400': currentForm !== form.id && !form.completed
+                                  }"
+                                  :style="{ width: `${form.progress}%` }"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Status Badge -->
+                          <div class="flex-shrink-0">
+                            <div
+                              v-if="form.completed"
+                              class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full"
+                            >
+                              Complete
+                            </div>
+                            <div
+                              v-else-if="currentForm === form.id"
+                              class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                            >
+                              Active
+                            </div>
+                            <div
+                              v-else
+                              class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full"
+                            >
+                              Available
+                            </div>
                           </div>
                         </div>
+                      </button>
 
-                        <!-- Arrow -->
-                        <div class="flex-shrink-0 ml-3">
-                          <svg
-                            v-if="form.enabled"
-                            class="w-4 h-4 opacity-50"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </div>
-          </div>
-              </button>
-            </div>
+                      <!-- Expandable Subsections -->
+                      <Transition name="expand">
+                        <div v-if="expandedSections.includes(form.id)" class="border-t border-gray-200 bg-gray-50">
+                          <div class="p-2">
+                            <div
+                              v-for="(subsection, subIndex) in form.subsections"
+                              :key="subsection.id"
+                              class="mb-1 last:mb-0"
+                            >
+                              <button
+                                @click="navigateToSubsection(form.id, subsection.id)"
+                                type="button"
+                                class="w-full text-left p-3 rounded-lg transition-all duration-200 hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-200"
+                                :class="{
+                                  'bg-blue-100 border-blue-200 shadow-sm': currentForm === form.id,
+                                  'bg-white border-gray-200 shadow-sm': subsection.completed
+                                }"
+                              >
+                                <div class="flex items-center space-x-3">
+                                  <!-- Subsection Status Icon -->
+                                  <div class="flex-shrink-0">
+                                    <div
+                                      v-if="subsection.completed"
+                                      class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
+                                    >
+                                      <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      v-else
+                                      class="w-5 h-5 border-2 border-gray-300 rounded-full bg-white flex items-center justify-center"
+                                    >
+                                      <span class="text-xs font-medium text-gray-500">{{ subIndex + 1 }}</span>
+                                    </div>
+                                  </div>
+
+                                  <!-- Subsection Info -->
+                                  <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ subsection.title }}</p>
+                                  </div>
+
+                                  <!-- Navigation Arrow -->
+                                  <div class="flex-shrink-0">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Transition>
+                    </div>
+                  </div>
                 </div>
               </nav>
           </div>
@@ -240,6 +353,9 @@ const formData = reactive({
   interiorConditions: {}
 })
 
+// Sidebar state
+const expandedSections = ref<string[]>(['project-summary'])
+
 // Form configuration
 const forms = ref([
   {
@@ -248,41 +364,98 @@ const forms = ref([
     description: 'Basic project information and location details',
     enabled: true,
     completed: false,
-    progress: 0
+    progress: 0,
+    subsections: [
+      { id: 'project-info', title: 'Placeholder Subsection 1', completed: false },
+      { id: 'location-details', title: 'Placeholder Subsection 2', completed: false },
+      { id: 'property-details', title: 'Placeholder Subsection 3', completed: false },
+      { id: 'contact-info', title: 'Placeholder Subsection 4', completed: false },
+      { id: 'assessment-scope', title: 'Placeholder Subsection 5', completed: false }
+    ]
   },
   {
     id: 'site-grounds',
     title: 'Site Grounds',
     description: 'Drainage, topography, and site improvements',
-    enabled: false,
+    enabled: true,
     completed: false,
-    progress: 0
+    progress: 0,
+    subsections: [
+      { id: 'drainage-systems', title: 'Drainage system & erosion control', completed: false },
+      { id: 'site-topography', title: 'Topography & Landscaping', completed: false },
+      { id: 'landscaping', title: 'General Site Improvements', completed: false },
+      { id: 'paving-walkways', title: 'Other Structures', completed: false },
+      { id: 'site-utilities', title: 'Placeholder Subsection 5', completed: false }
+    ]
   },
   {
     id: 'building-envelope',
     title: 'Building Envelope',
     description: 'Exterior walls, roof, and structural elements',
-    enabled: false,
+    enabled: true,
     completed: false,
-    progress: 0
+    progress: 0,
+    subsections: [
+      { id: 'exterior-walls', title: 'Foundations/Substructures', completed: false },
+      { id: 'roofing-system', title: 'Superstructure', completed: false },
+      { id: 'windows-doors', title: 'Roofing', completed: false },
+      { id: 'structural-elements', title: 'Exterior Walls', completed: false },
+      { id: 'insulation-weatherization', title: 'Parking, Paving, & Sidewalks', completed: false }
+      { id: 'insulation-weatherization', title: 'Parking garage structure type', completed: false }
+      { id: 'insulation-weatherization', title: 'Building stairs, balconies, & patios', completed: false }
+      { id: 'insulation-weatherization', title: 'Windows', completed: false }
+      { id: 'insulation-weatherization', title: 'Doors', completed: false }
+      { id: 'insulation-weatherization', title: 'Swimming pools and spas', completed: false }
+    ]
   },
   {
     id: 'mechanical-systems',
     title: 'Mechanical Systems',
     description: 'HVAC, plumbing, and electrical systems',
-    enabled: false,
+    enabled: true,
     completed: false,
-    progress: 0
+    progress: 0,
+    subsections: [
+      { id: 'hvac-systems', title: 'Hvac Individual Units', completed: false },
+      { id: 'plumbing-systems', title: 'Misc Units', completed: false },
+      { id: 'electrical-systems', title: 'Chillers & Cooling Towers', completed: false },
+      { id: 'fire-safety', title: 'Boiler Heat', completed: false },
+      { id: 'elevator-systems', title: 'Plumbing Systems', completed: false }
+      { id: 'elevator-systems', title: 'Water Heater - Common area', completed: false }
+      { id: 'elevator-systems', title: 'Water Heater - Tenant spaces', completed: false }
+      { id: 'elevator-systems', title: 'Boilers - Plumbing water', completed: false }
+      { id: 'elevator-systems', title: 'Electric', completed: false }
+      { id: 'elevator-systems', title: 'Elevators and Conveying Systems', completed: false }
+      { id: 'elevator-systems', title: 'Fire Protection', completed: false }
+    ]
   },
   {
     id: 'interior-conditions',
     title: 'Interior Conditions',
     description: 'Interior spaces, finishes, and fixtures',
-    enabled: false,
+    enabled: true,
     completed: false,
-    progress: 0
+    progress: 0,
+    subsections: [
+      { id: 'flooring-finishes', title: 'Commercial Tenant unit finishes', completed: false },
+      { id: 'wall-ceiling-finishes', title: 'Common Area finishes', completed: false },
+      { id: 'interior-fixtures', title: 'Furniture, Fixtures, and Equipment', completed: false },
+      { id: 'accessibility-features', title: 'Mold', completed: false },
+      { id: 'interior-environmental', title: 'Alternative Property Specific Data', completed: false }
+    ]
   }
 ])
+
+// Computed properties for progress tracking
+const completedFormsCount = computed(() => {
+  return forms.value.filter(form => form.completed).length
+})
+
+const overallProgress = computed(() => {
+  const totalForms = forms.value.length
+  const completed = completedFormsCount.value
+  return Math.round((completed / totalForms) * 100)
+})
 
 // Get current form ref
 const getCurrentFormRef = () => {
@@ -373,6 +546,23 @@ const toggleSidebar = () => {
   console.log('New sidebar state:', sidebarOpen.value)
 }
 
+const toggleSection = (sectionId: string) => {
+  const index = expandedSections.value.indexOf(sectionId)
+  if (index > -1) {
+    expandedSections.value.splice(index, 1)
+  } else {
+    expandedSections.value.push(sectionId)
+  }
+}
+
+const navigateToSubsection = (formId: string, subsectionId: string) => {
+  // Navigate to specific form and subsection
+  currentForm.value = formId
+  console.log(`Navigating to ${formId} - ${subsectionId}`)
+  closeSidebar()
+  // TODO: Add logic to navigate to specific subsection within the form
+}
+
 const openSidebar = () => {
   sidebarOpen.value = true
 }
@@ -383,8 +573,14 @@ const closeSidebar = () => {
 
 const selectForm = (formId: string) => {
   const form = forms.value.find(f => f.id === formId)
-  if (form && form.enabled) {
+  if (form) {
     currentForm.value = formId
+    closeSidebar()
+
+    // Auto-expand the selected section
+    if (!expandedSections.value.includes(formId)) {
+      expandedSections.value.push(formId)
+    }
   }
 }
 
@@ -400,14 +596,9 @@ const completeForm = (formId: string) => {
 }
 
 const enableNextForm = (completedFormId: string) => {
-  // After Project Summary is complete, enable all other forms
-  if (completedFormId === 'project-summary') {
-    forms.value.forEach(form => {
-      if (form.id !== 'project-summary') {
-        form.enabled = true
-      }
-    })
-  }
+  // Non-linear flow: all forms are always enabled after project summary exists
+  // This function can be used for progress tracking if needed
+  console.log(`Form completed: ${completedFormId}`)
 }
 
 // Navigation methods
@@ -1117,5 +1308,24 @@ const handleSubmit = () => {
 .problematic-textarea::placeholder {
   color: #9ca3af;
   font-style: italic;
+}
+
+/* Expand/Collapse Transitions for Navigation Sections */
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  max-height: 400px;
+  opacity: 1;
 }
 </style>
