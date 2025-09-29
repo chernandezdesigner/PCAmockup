@@ -71,23 +71,39 @@
           <!-- Consistent Sticky Navigation Footer -->
           <div class="sticky bottom-0 px-6 py-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm shadow-2xl">
             <div class="flex gap-3">
-              <!-- Back Button -->
-                          <button
-                v-if="canGoBack"
-                @click="goBack"
-                            type="button"
-                class="form-navigation-button form-navigation-button--secondary"
+              <!-- Back Button (always shown, disabled for step 1) -->
+              <button
+                @click="canGoBack ? goBack() : null"
+                type="button"
+                class="form-navigation-button"
+                :class="{
+                  'form-navigation-button--secondary': canGoBack,
+                  'form-navigation-button--disabled': !canGoBack
+                }"
+                :disabled="!canGoBack"
               >
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                            </svg>
+                </svg>
                 Back
-                          </button>
-                          
+              </button>
+
+              <!-- Camera Button -->
+              <button
+                type="button"
+                class="form-navigation-button form-navigation-button--camera"
+                aria-label="Take photo"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+
               <!-- Primary Action Button -->
-                                <button
+              <button
                 @click="handlePrimaryAction"
-                                  type="button"
+                type="button"
                 class="form-navigation-button form-navigation-button--primary flex-1"
               >
                 <span class="font-semibold">{{ primaryActionText }}</span>
@@ -97,9 +113,9 @@
                 <svg v-else-if="primaryActionIcon === 'menu'" class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                          </button>
-                                  </div>
-                        </div>
+              </button>
+            </div>
+          </div>
                       </div>
 
         <!-- Navigation Sidebar - Contained within phone mockup -->
@@ -792,6 +808,43 @@ const handleSubmit = () => {
 
 .form-navigation-button--secondary:hover {
   background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.form-navigation-button--disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  border: 2px solid #e5e7eb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-navigation-button--disabled:hover {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+.form-navigation-button--camera {
+  background-color: #ffffff;
+  color: #4b5563;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-navigation-button--camera:hover {
+  background-color: #f3f4f6;
   border-color: #d1d5db;
   color: #374151;
   transform: translateY(-1px);
